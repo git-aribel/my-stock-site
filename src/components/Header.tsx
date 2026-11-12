@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthButtons from "@/components/AuthButtons";
 
 const links = [
   { href: "/videos", label: "Videos" },
@@ -24,17 +25,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-6 text-[0.7rem] uppercase tracking-[0.25em]">
-          <Link href="/login" className="font-light text-cocoa hover:text-denim">
-            Log in
-          </Link>
-          <Link
-            href="/pricing"
-            className="bg-cocoa px-5 py-2.5 text-periwinkle transition hover:bg-cocoa-deep"
-          >
-            Join now
-          </Link>
-        </div>
+        <AuthButtons />
       </div>
     </header>
   );
