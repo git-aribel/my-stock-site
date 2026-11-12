@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import CheckoutButton from "@/components/CheckoutButton";
 // ✏️ CHANGE YOUR PRICES HERE
 const plans = [
   {
@@ -150,16 +149,11 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <Link
-                  href={`/signup?plan=${plan.id}`}
-                  className={`mt-10 block px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] transition ${
-                    plan.featured
-                      ? "bg-periwinkle text-cocoa hover:bg-cream"
-                      : "bg-cocoa text-periwinkle hover:bg-cocoa-deep"
-                  }`}
-                >
-                  Choose {plan.name}
-                </Link>
+                <CheckoutButton
+                  planId={plan.id}
+                  planName={plan.name}
+                  featured={plan.featured}
+                />
               </div>
             );
           })}
