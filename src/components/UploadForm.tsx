@@ -3,10 +3,33 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-const MAX_MB = 50;
+const MAX_MB = 2000;
 
 function cleanName(name: string) {
   return name.replace(/[^a-zA-Z0-9._-]/g, "-");
+}
+
+function putWithProgress(
+  url: string,
+  file: File,
+  contentType: string,
+  onProgress: (pct: number) => void
+) {
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", contentType);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300
+        ? resolve()
+        : reject(new Error(`Upload failed (${xhr.status})`));
+    xhr.onerror = () =>
+      reject(new Error("Upload failed. Check the R2 CORS settings."));
+    xhr.send(file);
+  });
 }
 
 const inputClass =
@@ -35,18 +58,15 @@ export default function UploadForm() {
       return;
     }
     if (mainFile.size > MAX_MB * 1024 * 1024) {
-      setError(
-        `The main file is over ${MAX_MB} MB. That's the free plan limit; a paid Supabase plan raises it.`
-      );
+      setError(`The main file is over ${MAX_MB} MB.`);
       return;
     }
 
     setBusy(true);
     const supabase = createClient();
-    const id = crypto.randomUUID();
-    const previewPath = `${category}/${id}-${cleanName(previewFile.name)}`;
-    const filePath = `${category}/${id}-${cleanName(mainFile.name)}`;
+    const previewPath = `${category}/${crypto.randomUUID()}-${cleanName(previewFile.name)}`;
 
+    // 1. Preview image -> Supabase
     setStatus("Uploading preview...");
     const { error: previewError } = await supabase.storage
       .from("previews")
@@ -59,36 +79,42 @@ export default function UploadForm() {
       return;
     }
 
-    setStatus("Uploading file (large files can take a while)...");
-    const { error: fileError } = await supabase.storage
-      .from("files")
-      .upload(filePath, mainFile);
+    // 2. Main file -> R2
+    try {
+      setStatus("Preparing upload...");
+      const signRes = await fetch("/api/upload/sign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category,
+          filename: mainFile.name,
+          contentType: mainFile.type,
+        }),
+      });
+      const sign = await signRes.json();
+      if (!signRes.ok) throw new Error(sign.error ?? "Could not prepare upload");
 
-    if (fileError) {
+      await putWithProgress(sign.url, mainFile, sign.contentType, (pct) =>
+        setStatus(`Uploading file... ${pct}%`)
+      );
+
+      // 3. Save details
+      setStatus("Saving details...");
+      const { error: dbError } = await supabase.from("content_items").insert({
+        title,
+        category,
+        description: description || null,
+        tags: tags
+          .split(",")
+          .map((t) => t.trim().toLowerCase())
+          .filter(Boolean),
+        file_path: sign.key,
+        preview_path: previewPath,
+      });
+      if (dbError) throw new Error(`Saving failed: ${dbError.message}`);
+    } catch (err) {
       await supabase.storage.from("previews").remove([previewPath]);
-      setError(`File upload failed: ${fileError.message}`);
-      setBusy(false);
-      setStatus(null);
-      return;
-    }
-
-    setStatus("Saving details...");
-    const { error: dbError } = await supabase.from("content_items").insert({
-      title,
-      category,
-      description: description || null,
-      tags: tags
-        .split(",")
-        .map((t) => t.trim().toLowerCase())
-        .filter(Boolean),
-      file_path: filePath,
-      preview_path: previewPath,
-    });
-
-    if (dbError) {
-      await supabase.storage.from("previews").remove([previewPath]);
-      await supabase.storage.from("files").remove([filePath]);
-      setError(`Saving failed: ${dbError.message}`);
+      setError(err instanceof Error ? err.message : "Something went wrong.");
       setBusy(false);
       setStatus(null);
       return;
@@ -162,7 +188,7 @@ export default function UploadForm() {
       </div>
 
       <div>
-        <label className={labelClass}>Main file (max {MAX_MB} MB)</label>
+        <label className={labelClass}>Main file</label>
         <input
           type="file"
           required
