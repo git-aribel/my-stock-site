@@ -59,7 +59,10 @@ export default function AuthButtons() {
 
   return (
     <div className="flex items-center gap-6 text-[0.7rem] uppercase tracking-[0.25em]">
-      <Link href="/login" className="font-light text-cocoa hover:text-denim">
+      <Link
+        href="/login"
+        className="hidden font-light text-cocoa hover:text-denim sm:block"
+      >
         Log in
       </Link>
       <Link

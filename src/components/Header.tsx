@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AuthButtons from "@/components/AuthButtons";
+import MobileMenu from "@/components/MobileMenu";
 
 const links = [
   { href: "/videos", label: "Videos" },
@@ -25,7 +26,10 @@ export default function Header() {
           ))}
         </nav>
 
-        <AuthButtons />
+        <div className="flex items-center gap-4">
+          <AuthButtons />
+          <MobileMenu links={links} />
+        </div>
       </div>
     </header>
   );
