@@ -26,12 +26,13 @@ async function saveSubscription(sub: Stripe.Subscription) {
       stripe_subscription_id: sub.id,
       plan: sub.metadata?.plan ?? null,
       status: sub.status,
+      cancel_at_period_end: sub.cancel_at_period_end || sub.cancel_at != null,
       current_period_end: periodEnd
         ? new Date(periodEnd * 1000).toISOString()
         : null,
       updated_at: new Date().toISOString(),
     },
-    { onConflict: "stripe_subscription_id" }
+    { onConflict: "stripe_subscription_id" },
   );
 
   if (error) throw error;
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });

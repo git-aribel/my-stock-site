@@ -41,9 +41,12 @@ export default function AuthButtons() {
   if (user) {
     return (
       <div className="flex items-center gap-6 text-[0.7rem] uppercase tracking-[0.25em]">
-        <span className="hidden max-w-[10rem] truncate font-light text-cocoa/70 sm:block">
-          {user.email}
-        </span>
+        <Link
+          href="/account"
+          className="hidden max-w-[10rem] truncate font-light text-cocoa/70 hover:text-denim sm:block"
+        >
+          Account
+        </Link>
         <button
           onClick={handleLogout}
           className="bg-cocoa px-5 py-2.5 text-periwinkle transition hover:bg-cocoa-deep"
