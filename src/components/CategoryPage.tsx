@@ -1,29 +1,62 @@
-import Link from "next/link";
+import { Suspense } from "react";
+import { connection } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import LibraryGrid from "@/components/LibraryGrid";
 
 type Props = {
+  category: string;
   label: string;
   script: string;
   description: string;
   aspect: string;
   columns: string;
-  panel: string;
-  count?: number;
 };
 
+async function Items({
+  category,
+  aspect,
+  columns,
+}: Pick<Props, "category" | "aspect" | "columns">) {
+  await connection();
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("content_items")
+    .select("id, title, tags, preview_path")
+    .eq("category", category)
+    .order("created_at", { ascending: false });
+
+  if (!data || data.length === 0) {
+    return (
+      <p className="text-center font-script text-5xl text-denim">
+        coming soon
+      </p>
+    );
+  }
+
+  const items = data.map((item) => ({
+    id: item.id as string,
+    title: item.title as string,
+    tags: (item.tags as string[] | null) ?? null,
+    previewUrl: item.preview_path
+      ? supabase.storage.from("previews").getPublicUrl(item.preview_path).data
+          .publicUrl
+      : null,
+  }));
+
+  return <LibraryGrid items={items} aspect={aspect} columns={columns} />;
+}
+
 export default function CategoryPage({
+  category,
   label,
   script,
   description,
   aspect,
   columns,
-  panel,
-  count = 8,
 }: Props) {
-  const items = Array.from({ length: count }, (_, i) => i);
-
   return (
     <div>
-      {/* Header band */}
       <section className="linen">
         <div className="mx-auto max-w-5xl px-6 py-16 text-center md:py-24">
           <p className="text-[0.7rem] font-light uppercase tracking-[0.3em] text-periwinkle/80">
@@ -38,30 +71,16 @@ export default function CategoryPage({
         </div>
       </section>
 
-      {/* Placeholder grid */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className={`grid gap-6 ${columns}`}>
-          {items.map((i) => (
-            <div key={i} className="border border-cocoa/25 bg-paper p-2">
-              <div
-                className={`${panel} ${aspect} flex items-center justify-center`}
-              >
-                <span className="emboss font-script text-3xl text-cream">
-                  coming soon
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <Link
-            href="/pricing"
-            className="bg-cocoa px-8 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-periwinkle transition hover:bg-cocoa-deep"
-          >
-            Join to download
-          </Link>
-        </div>
+        <Suspense
+          fallback={
+            <p className="text-center font-serif text-xl text-cocoa/70">
+              Loading...
+            </p>
+          }
+        >
+          <Items category={category} aspect={aspect} columns={columns} />
+        </Suspense>
       </section>
     </div>
   );
