@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Imperial_Script } from "next/font/google";
 import Header from "@/components/Header";
 import "./globals.css";
+import Link from "next/link";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -36,9 +37,23 @@ export default function RootLayout({
       >
         <Header />
         <main>{children}</main>
-        <footer className="linen mt-0 py-14 text-center">
+        <footer className="linen py-14 text-center">
           <p className="font-script text-5xl text-periwinkle">Socials Bestie</p>
-          <p className="mt-4 text-[0.65rem] uppercase tracking-[0.3em] text-cream/60">
+          <nav className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-3 text-[0.65rem] uppercase tracking-[0.25em] text-cream/70">
+            <Link href="/terms" className="hover:text-periwinkle">
+              Terms
+            </Link>
+            <Link href="/privacy" className="hover:text-periwinkle">
+              Privacy
+            </Link>
+            <Link href="/license" className="hover:text-periwinkle">
+              License
+            </Link>
+            <Link href="/refunds" className="hover:text-periwinkle">
+              Refunds
+            </Link>
+          </nav>
+          <p className="mt-6 text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
             © 2026 Socials Bestie. All rights reserved.
           </p>
         </footer>
