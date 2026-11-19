@@ -42,7 +42,7 @@ export default function TermsPage() {
         {
           heading: "Fair use",
           body: [
-            "Downloads are unlimited for normal use. To protect the service, we apply a daily download limit, and we may suspend accounts that use automated tools to copy the library, share downloads publicly, or otherwise abuse the service.",
+            "Downloads are unlimited for normal use. We may suspend accounts that use automated tools to copy the library, share downloads publicly, or otherwise abuse the service.",
           ],
         },
         {

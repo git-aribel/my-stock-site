@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         {
           heading: "What we collect",
           body: [
-            "Your email address and password (stored in protected, encrypted form), your membership status and billing period, and a record of which files you download, which we use to apply our daily download limit and prevent abuse.",
+            "Your email address and password (stored in protected, encrypted form), and your membership status and billing period.",
             "We never see or store your full card details. Payments are processed by Stripe.",
           ],
         },
