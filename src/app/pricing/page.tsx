@@ -1,33 +1,19 @@
+import Link from "next/link";
 import CheckoutButton from "@/components/CheckoutButton";
 // ✏️ CHANGE YOUR PRICES HERE
-const plans = [
-  {
-    id: "monthly",
-    name: "Monthly",
-    price: 19,
-    months: 1,
-    billed: "Billed every month",
-    badge: null,
-    featured: false,
-  },
-  {
-    id: "quarterly",
-    name: "3 Months",
-    price: 49,
-    months: 3,
-    billed: "Billed every 3 months",
-    badge: null,
-    featured: false,
-  },
-  {
-    id: "annual",
-    name: "Annual",
-    price: 182,
-    months: 12,
-    billed: "Billed once a year",
-    badge: "Best value",
-    featured: true,
-  },
+// These must match the prices in Stripe (STRIPE_PRICE_MONTHLY / STRIPE_PRICE_ANNUAL).
+const MONTHLY_PRICE = 19;
+const ANNUAL_PRICE = 180;
+
+const annualPerMonth = ANNUAL_PRICE / 12;
+const annualSavings = Math.round((1 - annualPerMonth / MONTHLY_PRICE) * 100);
+
+const freeFeatures = [
+  "Instagram & TikTok grid planner",
+  "Font pairing generator",
+  "Color palette generator",
+  "Brand board downloads",
+  "No card needed",
 ];
 
 const features = [
@@ -54,8 +40,6 @@ const faqs = [
   },
 ];
 
-const monthlyPrice = plans[0].price;
-
 function formatPrice(n: number) {
   return Number.isInteger(n) ? `${n}` : n.toFixed(2);
 }
@@ -81,82 +65,58 @@ export default function PricingPage() {
 
       {/* Plans */}
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="grid gap-8 md:grid-cols-3">
-          {plans.map((plan) => {
-            const perMonth = plan.price / plan.months;
-            const savings = Math.round((1 - perMonth / monthlyPrice) * 100);
+        <div className="grid gap-8 md:grid-cols-3 md:items-start">
+          {/* Free */}
+          <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
+            <h2 className="font-script text-5xl text-denim">Free</h2>
+            <p className="mt-6 font-serif text-6xl">$0</p>
+            <p className="mt-2 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/60">
+              Free forever
+            </p>
+            <p className="mt-4 font-serif text-lg">Creator tools only</p>
+            <FeatureList items={freeFeatures} />
+            <Link
+              href="/signup?next=/tools"
+              className="mt-10 block w-full border border-cocoa px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-rose/40"
+            >
+              Sign up free
+            </Link>
+          </div>
 
-            return (
-              <div
-                key={plan.id}
-                className={`relative flex flex-col p-8 text-center ${
-                  plan.featured
-                    ? "linen text-cream md:-translate-y-4"
-                    : "border border-cocoa/25 bg-paper text-cocoa"
-                }`}
-              >
-                {plan.badge && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-periwinkle px-4 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
-                    {plan.badge}
-                  </span>
-                )}
+          {/* Monthly */}
+          <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
+            <h2 className="font-script text-5xl text-denim">Monthly</h2>
+            <p className="mt-6 font-serif text-6xl">
+              ${formatPrice(MONTHLY_PRICE)}
+              <span className="text-2xl text-cocoa/70"> / month</span>
+            </p>
+            <p className="mt-2 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/60">
+              Billed every month
+            </p>
+            <p className="mt-4 font-serif text-lg">Everything, month to month</p>
+            <FeatureList items={features} />
+            <CheckoutButton planId="monthly" planName="Monthly" featured={false} />
+          </div>
 
-                <h2
-                  className={`font-script text-5xl ${
-                    plan.featured ? "text-periwinkle" : "text-denim"
-                  }`}
-                >
-                  {plan.name}
-                </h2>
-
-                <p className="mt-6 font-serif text-6xl">
-                  ${formatPrice(plan.price)}
-                </p>
-                <p
-                  className={`mt-2 text-[0.65rem] uppercase tracking-[0.25em] ${
-                    plan.featured ? "text-cream/60" : "text-cocoa/60"
-                  }`}
-                >
-                  {plan.billed}
-                </p>
-
-                <p className="mt-4 font-serif text-lg">
-                  ${formatPrice(perMonth)} / month
-                  {savings > 0 && (
-                    <span
-                      className={
-                        plan.featured ? " text-periwinkle" : " text-denim"
-                      }
-                    >
-                      {" "}
-                      · save {savings}%
-                    </span>
-                  )}
-                </p>
-
-                <ul className="mt-8 flex-1 space-y-3 text-left font-serif text-lg">
-                  {features.map((f) => (
-                    <li key={f} className="flex gap-3">
-                      <span
-                        className={
-                          plan.featured ? "text-periwinkle" : "text-denim"
-                        }
-                      >
-                        ✦
-                      </span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <CheckoutButton
-                  planId={plan.id}
-                  planName={plan.name}
-                  featured={plan.featured}
-                />
-              </div>
-            );
-          })}
+          {/* Annual */}
+          <div className="linen relative flex h-full flex-col p-8 text-center text-cream md:-translate-y-4">
+            <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-periwinkle px-4 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
+              Best value
+            </span>
+            <h2 className="font-script text-5xl text-periwinkle">Annual</h2>
+            <p className="mt-6 font-serif text-6xl">
+              ${formatPrice(annualPerMonth)}
+              <span className="text-2xl text-cream/70"> / month</span>
+            </p>
+            <p className="mt-2 text-[0.65rem] uppercase tracking-[0.25em] text-periwinkle">
+              Save {annualSavings}%
+            </p>
+            <p className="mt-4 font-serif text-lg text-cream/80">
+              ${formatPrice(ANNUAL_PRICE)} billed once a year
+            </p>
+            <FeatureList items={features} featured />
+            <CheckoutButton planId="annual" planName="Annual" featured />
+          </div>
         </div>
       </section>
 
@@ -181,5 +141,24 @@ export default function PricingPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+function FeatureList({
+  items,
+  featured = false,
+}: {
+  items: string[];
+  featured?: boolean;
+}) {
+  return (
+    <ul className="mt-8 flex-1 space-y-3 text-left font-serif text-lg">
+      {items.map((f) => (
+        <li key={f} className="flex gap-3">
+          <span className={featured ? "text-periwinkle" : "text-denim"}>✦</span>
+          <span>{f}</span>
+        </li>
+      ))}
+    </ul>
   );
 }

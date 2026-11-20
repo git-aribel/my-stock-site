@@ -1,28 +1,27 @@
 import { COMMISSION_PERCENT } from "@/lib/affiliates";
 
 // A made-up example of the affiliate dashboard, for the marketing page.
-// 100 members joined through the link: 60 monthly ($19), 24 quarterly ($49)
-// and 16 annual ($182), one payment each so far.
+// 100 members joined through the link: 70 monthly ($19) and 30 annual
+// ($180), one payment each so far.
 const PLANS = [
-  { name: "Monthly", price: 19, members: 60 },
-  { name: "3 Months", price: 49, members: 24 },
-  { name: "Annual", price: 182, members: 16 },
+  { name: "Monthly", price: 19, members: 70 },
+  { name: "Annual", price: 180, members: 30 },
 ];
 
 const totalEarned = PLANS.reduce(
   (sum, p) => sum + p.price * p.members * (COMMISSION_PERCENT / 100),
   0,
 );
-const onHold = 433.2;
-const ready = 365.4;
+const onHold = 540.6;
+const ready = 412.8;
 const paid = totalEarned - onHold - ready;
 
 const history = [
-  { date: "18 Nov 2026", plan: 2, status: "Pending" },
+  { date: "18 Nov 2026", plan: 1, status: "Pending" },
   { date: "17 Nov 2026", plan: 0, status: "Pending" },
   { date: "15 Nov 2026", plan: 1, status: "Pending" },
   { date: "12 Nov 2026", plan: 0, status: "Pending" },
-  { date: "30 Sep 2026", plan: 2, status: "Paid" },
+  { date: "30 Sep 2026", plan: 1, status: "Paid" },
 ];
 
 function money(n: number) {

@@ -39,7 +39,6 @@ async function referralMetadata(userId: string): Promise<Record<string, string>>
 
 const PRICES: Record<string, string | undefined> = {
   monthly: process.env.STRIPE_PRICE_MONTHLY,
-  quarterly: process.env.STRIPE_PRICE_QUARTERLY,
   annual: process.env.STRIPE_PRICE_ANNUAL,
 };
 
