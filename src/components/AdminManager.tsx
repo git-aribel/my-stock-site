@@ -12,7 +12,10 @@ type Item = {
   tags: string[] | null;
   preview_path: string | null;
   published: boolean;
+  collection_id: string | null;
 };
+
+type Collection = { id: string; name: string; category: string };
 
 const FILTERS = [
   { value: "all", label: "All" },
@@ -29,30 +32,46 @@ const smallBtn =
 
 export default function AdminManager() {
   const [items, setItems] = useState<Item[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [draft, setDraft] = useState({ title: "", description: "", tags: "" });
+  const [draft, setDraft] = useState({
+    title: "",
+    description: "",
+    tags: "",
+    collectionId: "",
+  });
   const [busyId, setBusyId] = useState<string | null>(null);
 
   useEffect(() => {
-    createClient()
-      .from("content_items")
-      .select("id, title, category, description, tags, preview_path, published")
-      .order("created_at", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) setError(error.message);
-        else setItems((data as Item[]) ?? []);
-        setLoading(false);
-      });
+    const supabase = createClient();
+    Promise.all([
+      supabase
+        .from("content_items")
+        .select(
+          "id, title, category, description, tags, preview_path, published, collection_id",
+        )
+        .order("created_at", { ascending: false }),
+      supabase.from("collections").select("id, name, category").order("name"),
+    ]).then(([itemsRes, colsRes]) => {
+      if (itemsRes.error) setError(itemsRes.error.message);
+      else setItems((itemsRes.data as Item[]) ?? []);
+      setCollections((colsRes.data as Collection[]) ?? []);
+      setLoading(false);
+    });
   }, []);
 
   function previewUrl(path: string | null) {
     if (!path) return null;
     return createClient().storage.from("previews").getPublicUrl(path).data
       .publicUrl;
+  }
+
+  function collectionName(id: string | null) {
+    return collections.find((c) => c.id === id)?.name ?? null;
   }
 
   function startEdit(item: Item) {
@@ -62,6 +81,7 @@ export default function AdminManager() {
       title: item.title,
       description: item.description ?? "",
       tags: (item.tags ?? []).join(", "),
+      collectionId: item.collection_id ?? "",
     });
   }
 
@@ -77,20 +97,23 @@ export default function AdminManager() {
       .split(",")
       .map((t) => t.trim().toLowerCase())
       .filter(Boolean);
+    const collection_id = draft.collectionId || null;
 
     setBusyId(id);
     setError(null);
 
     const { error } = await createClient()
       .from("content_items")
-      .update({ title, description, tags })
+      .update({ title, description, tags, collection_id })
       .eq("id", id);
 
     if (error) {
       setError(error.message);
     } else {
       setItems((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, title, description, tags } : i)),
+        prev.map((i) =>
+          i.id === id ? { ...i, title, description, tags, collection_id } : i,
+        ),
       );
       setEditingId(null);
     }
@@ -160,12 +183,20 @@ export default function AdminManager() {
             ? "Loading..."
             : `${visible.length} of ${items.length} items`}
         </p>
-        <Link
-          href="/admin/upload"
-          className="bg-cocoa px-5 py-2.5 text-[0.65rem] uppercase tracking-[0.25em] text-periwinkle transition hover:bg-cocoa-deep"
-        >
-          + Upload new
-        </Link>
+        <div className="flex gap-3">
+          <Link
+            href="/admin/collections"
+            className="border border-cocoa px-5 py-2.5 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-rose/40"
+          >
+            Collections
+          </Link>
+          <Link
+            href="/admin/upload"
+            className="bg-cocoa px-5 py-2.5 text-[0.65rem] uppercase tracking-[0.25em] text-periwinkle transition hover:bg-cocoa-deep"
+          >
+            + Upload new
+          </Link>
+        </div>
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
@@ -205,6 +236,7 @@ export default function AdminManager() {
           const url = previewUrl(item.preview_path);
           const editing = editingId === item.id;
           const busy = busyId === item.id;
+          const colName = collectionName(item.collection_id);
 
           return (
             <div
@@ -253,6 +285,22 @@ export default function AdminManager() {
                         placeholder="Tags, separated by commas"
                         className={inputClass}
                       />
+                      <select
+                        value={draft.collectionId}
+                        onChange={(e) =>
+                          setDraft({ ...draft, collectionId: e.target.value })
+                        }
+                        className={inputClass}
+                      >
+                        <option value="">No collection</option>
+                        {collections
+                          .filter((c) => c.category === item.category)
+                          .map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.name}
+                            </option>
+                          ))}
+                      </select>
                       <div className="flex gap-2">
                         <button
                           onClick={() => saveEdit(item.id)}
@@ -277,6 +325,7 @@ export default function AdminManager() {
                       </h3>
                       <p className="mt-1 text-[0.6rem] uppercase tracking-[0.2em] text-cocoa/60">
                         {item.category}
+                        {colName ? ` · ${colName}` : ""}
                         {item.published ? "" : " · hidden"}
                         {item.tags && item.tags.length > 0
                           ? ` · ${item.tags.join(", ")}`

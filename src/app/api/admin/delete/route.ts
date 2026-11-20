@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   const { data: item } = await supabase
     .from("content_items")
-    .select("id, file_path, preview_path")
+    .select("id, file_path, preview_path, preview_video_path")
     .eq("id", id)
     .single();
 
@@ -44,8 +44,11 @@ export async function POST(request: Request) {
         new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: item.file_path }),
       );
     }
-    if (item.preview_path) {
-      await supabase.storage.from("previews").remove([item.preview_path]);
+    const previewFiles = [item.preview_path, item.preview_video_path].filter(
+      (p): p is string => !!p,
+    );
+    if (previewFiles.length > 0) {
+      await supabase.storage.from("previews").remove(previewFiles);
     }
   } catch (err) {
     console.error("Delete storage error:", err);

@@ -107,7 +107,6 @@ async function AccountDetails() {
             Choose a plan
           </Link>
         )}
-
         {profile?.is_admin && (
           <>
             <Link
@@ -115,6 +114,12 @@ async function AccountDetails() {
               className="border border-denim px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-denim transition hover:bg-mist-deep/20"
             >
               Admin: manage
+            </Link>
+            <Link
+              href="/admin/collections"
+              className="border border-denim px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-denim transition hover:bg-mist-deep/20"
+            >
+              Admin: collections
             </Link>
             <Link
               href="/admin/upload"

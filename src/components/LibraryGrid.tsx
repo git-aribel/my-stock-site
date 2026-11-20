@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { downloadZip } from "client-zip";
 import DownloadButton from "@/components/DownloadButton";
+import PreviewMedia from "@/components/PreviewMedia";
 
 type Item = {
   id: string;
   title: string;
   tags: string[] | null;
   previewUrl: string | null;
+  previewVideoUrl: string | null;
 };
 
 type Props = {
@@ -241,14 +243,11 @@ export default function LibraryGrid({ items, aspect, columns }: Props) {
           {visible.map((item) => (
             <div key={item.id} className="border border-cocoa/25 bg-paper p-2">
               <div className={`relative ${aspect} overflow-hidden bg-rose/40`}>
-                {item.previewUrl && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={item.previewUrl}
-                    alt={item.title}
-                    className="h-full w-full object-cover"
-                  />
-                )}
+                <PreviewMedia
+                  imageUrl={item.previewUrl}
+                  videoUrl={item.previewVideoUrl}
+                  alt={item.title}
+                />
                 <label className="absolute left-2 top-2 flex h-8 w-8 cursor-pointer items-center justify-center border border-cocoa/40 bg-cream/90">
                   <input
                     type="checkbox"
