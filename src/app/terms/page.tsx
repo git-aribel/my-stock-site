@@ -100,7 +100,7 @@ export default function TermsPage() {
         {
           heading: "14. Affiliate program",
           body: [
-            "If you join our affiliate program, our Affiliate Terms also apply to you.",
+            "If you join our affiliate program, our Affiliate Terms (at /affiliate-terms) also apply to you.",
           ],
         },
         {

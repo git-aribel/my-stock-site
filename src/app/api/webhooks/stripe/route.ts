@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { COMMISSION_MONTHS, COMMISSION_PERCENT } from "@/lib/affiliates";
 
 async function saveSubscription(sub: Stripe.Subscription) {
   const userId = sub.metadata?.user_id;
@@ -34,6 +35,93 @@ async function saveSubscription(sub: Stripe.Subscription) {
     },
     { onConflict: "stripe_subscription_id" },
   );
+
+  if (error) throw error;
+}
+
+// Records an affiliate commission when a referred member's invoice is paid.
+async function recordCommission(invoice: Stripe.Invoice) {
+  const details = invoice.parent?.subscription_details;
+  const meta = details?.metadata ?? {};
+  const affiliateId = meta.affiliate_id;
+  if (!affiliateId) return;
+
+  // Only the first COMMISSION_MONTHS months of the membership earn commission
+  const referredAt = Number(meta.referred_at);
+  if (referredAt) {
+    const end = new Date(referredAt * 1000);
+    end.setMonth(end.getMonth() + COMMISSION_MONTHS);
+    if (invoice.created * 1000 > end.getTime()) return;
+  }
+
+  // Commission is on the price before tax
+  const base = Math.min(
+    invoice.amount_paid,
+    invoice.total_excluding_tax ?? invoice.amount_paid,
+  );
+  if (base <= 0) return;
+
+  const subscriptionId = details?.subscription
+    ? typeof details.subscription === "string"
+      ? details.subscription
+      : details.subscription.id
+    : null;
+
+  const admin = createAdminClient();
+  const { error } = await admin.from("affiliate_commissions").upsert(
+    {
+      affiliate_id: affiliateId,
+      referred_user_id: meta.user_id ?? null,
+      stripe_invoice_id: invoice.id,
+      stripe_subscription_id: subscriptionId,
+      amount_paid: base,
+      commission: Math.round((base * COMMISSION_PERCENT) / 100),
+      currency: invoice.currency,
+    },
+    { onConflict: "stripe_invoice_id", ignoreDuplicates: true },
+  );
+
+  if (error) throw error;
+}
+
+// Reduces or cancels an unpaid commission when the payment is refunded.
+async function handleRefund(charge: Stripe.Charge) {
+  const paymentIntent =
+    typeof charge.payment_intent === "string"
+      ? charge.payment_intent
+      : charge.payment_intent?.id;
+  if (!paymentIntent) return;
+
+  const payments = await stripe.invoicePayments.list({
+    payment: { type: "payment_intent", payment_intent: paymentIntent },
+    limit: 1,
+  });
+  const inv = payments.data[0]?.invoice;
+  const invoiceId = typeof inv === "string" ? inv : inv?.id;
+  if (!invoiceId) return;
+
+  const admin = createAdminClient();
+  const { data: row } = await admin
+    .from("affiliate_commissions")
+    .select("id, amount_paid, status")
+    .eq("stripe_invoice_id", invoiceId)
+    .maybeSingle();
+  if (!row) return;
+
+  if (row.status === "paid") {
+    console.warn("Refund on an invoice whose commission was already paid:", invoiceId);
+    return;
+  }
+
+  const kept = Math.max(0, row.amount_paid - charge.amount_refunded);
+  const { error } = await admin
+    .from("affiliate_commissions")
+    .update(
+      charge.refunded || kept === 0
+        ? { status: "void", commission: 0 }
+        : { commission: Math.round((kept * COMMISSION_PERCENT) / 100) },
+    )
+    .eq("id", row.id);
 
   if (error) throw error;
 }
@@ -75,6 +163,12 @@ export async function POST(request: Request) {
       case "customer.subscription.updated":
       case "customer.subscription.deleted":
         await saveSubscription(event.data.object as Stripe.Subscription);
+        break;
+      case "invoice.paid":
+        await recordCommission(event.data.object as Stripe.Invoice);
+        break;
+      case "charge.refunded":
+        await handleRefund(event.data.object as Stripe.Charge);
         break;
     }
   } catch (err) {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { safeNext } from "@/lib/affiliates";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,7 +30,10 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/");
+    const next = safeNext(
+      new URLSearchParams(window.location.search).get("next"),
+    );
+    router.push(next ?? "/");
     router.refresh();
   }
 

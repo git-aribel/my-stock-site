@@ -122,6 +122,12 @@ async function AccountDetails() {
               Admin: collections
             </Link>
             <Link
+              href="/admin/affiliates"
+              className="border border-denim px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-denim transition hover:bg-mist-deep/20"
+            >
+              Admin: affiliates
+            </Link>
+            <Link
               href="/admin/upload"
               className="border border-denim px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-denim transition hover:bg-mist-deep/20"
             >

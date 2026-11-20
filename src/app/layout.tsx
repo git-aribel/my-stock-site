@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Jost, Imperial_Script } from "next/font/google";
 import Header from "@/components/Header";
 import "./globals.css";
 import Link from "next/link";
+import ReferralBanner from "@/components/ReferralBanner";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -55,14 +56,12 @@ export default function RootLayout({
             <Link href="/license" className="hover:text-periwinkle">
               License
             </Link>
-            <Link href="/affiliates" className="hover:text-periwinkle">
-              Affiliates
-            </Link>
           </nav>
           <p className="mt-6 text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
             © 2026 Socials Bestie. All rights reserved.
           </p>
         </footer>
+        <ReferralBanner />
       </body>
     </html>
   );

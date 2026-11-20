@@ -4,11 +4,13 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { safeNext } from "@/lib/affiliates";
 
 function SignupForm() {
   const router = useRouter();
   const params = useSearchParams();
   const plan = params.get("plan");
+  const next = safeNext(params.get("next"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +38,7 @@ function SignupForm() {
     }
 
     if (data.session) {
-      router.push("/pricing");
+      router.push(next ?? "/pricing");
       router.refresh();
     } else {
       setCheckEmail(true);
@@ -96,7 +98,10 @@ function SignupForm() {
 
       <p className="text-center font-serif text-lg text-cocoa/80">
         Already a member?{" "}
-        <Link href="/login" className="text-denim underline">
+        <Link
+          href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"}
+          className="text-denim underline"
+        >
           Log in
         </Link>
       </p>

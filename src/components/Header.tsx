@@ -8,6 +8,7 @@ const links = [
   { href: "/images", label: "Images" },
   { href: "/stickers", label: "Stickers" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/affiliates", label: "Affiliates" },
 ];
 
 export default function Header() {
