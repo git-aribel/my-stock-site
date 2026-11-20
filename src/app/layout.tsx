@@ -40,6 +40,12 @@ export default function RootLayout({
         <footer className="linen py-14 text-center">
           <p className="font-script text-5xl text-periwinkle">Socials Bestie</p>
           <nav className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-3 text-[0.65rem] uppercase tracking-[0.25em] text-cream/70">
+            <Link href="/faq" className="hover:text-periwinkle">
+              FAQ
+            </Link>
+            <Link href="/contact" className="hover:text-periwinkle">
+              Contact
+            </Link>
             <Link href="/terms" className="hover:text-periwinkle">
               Terms
             </Link>
@@ -48,6 +54,9 @@ export default function RootLayout({
             </Link>
             <Link href="/license" className="hover:text-periwinkle">
               License
+            </Link>
+            <Link href="/affiliates" className="hover:text-periwinkle">
+              Affiliates
             </Link>
           </nav>
           <p className="mt-6 text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
