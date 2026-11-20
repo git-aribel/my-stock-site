@@ -26,7 +26,7 @@ async function Items({
   const [{ data: collections }, { data: rows }] = await Promise.all([
     supabase
       .from("collections")
-      .select("id, name, slug, description")
+      .select("id, name, slug, description, cover_path, cover_item_id")
       .eq("category", category)
       .order("created_at", { ascending: false }),
     supabase
@@ -45,11 +45,16 @@ async function Items({
   const cards = (collections ?? [])
     .map((c) => {
       const inside = rows.filter((r) => r.collection_id === c.id);
-      const cover = inside.find((r) => r.preview_path);
+      const chosen = c.cover_item_id
+        ? inside.find((r) => r.id === c.cover_item_id)
+        : null;
+      const fallback = inside.find((r) => r.preview_path);
+      const coverPath =
+        c.cover_path ?? chosen?.preview_path ?? fallback?.preview_path ?? null;
       return {
         ...c,
         count: inside.length,
-        coverUrl: publicPreviewUrl(supabase, cover?.preview_path ?? null),
+        coverUrl: publicPreviewUrl(supabase, coverPath),
       };
     })
     .filter((c) => c.count > 0);
