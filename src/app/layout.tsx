@@ -49,9 +49,6 @@ export default function RootLayout({
             <Link href="/license" className="hover:text-periwinkle">
               License
             </Link>
-            <Link href="/refunds" className="hover:text-periwinkle">
-              Refunds
-            </Link>
           </nav>
           <p className="mt-6 text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
             © 2026 Socials Bestie. All rights reserved.
