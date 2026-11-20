@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DashboardPreview from "@/components/DashboardPreview";
 import {
   COMMISSION_MONTHS,
   COMMISSION_PERCENT,
@@ -141,6 +142,7 @@ export default function AffiliatesPage() {
             </li>
           ))}
         </ol>
+        <DashboardPreview />
       </section>
 
       {/* Why join */}
