@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ASSISTANT_SKILLS } from "@/lib/assistant";
+import AryAvatar from "@/components/AryAvatar";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -193,8 +194,9 @@ export default function AssistantChat() {
       {/* Chat */}
       <div className="flex min-h-[560px] flex-col border border-cocoa/25 bg-paper">
         <div className="flex items-center justify-between border-b border-cocoa/15 px-5 py-3">
-          <p className="text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/70">
-            Your assistant
+          <p className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/70">
+            <AryAvatar size={28} />
+            Ary 1.0 · content agent
             {remaining !== null && (
               <span className="ml-3 normal-case tracking-normal text-cocoa/50">
                 {remaining} message{remaining === 1 ? "" : "s"} left today
@@ -216,10 +218,11 @@ export default function AssistantChat() {
         <div className="flex-1 space-y-5 overflow-y-auto px-5 py-6" aria-live="polite">
           {messages.length === 0 ? (
             <div className="py-10 text-center">
-              <p className="font-script text-5xl text-denim">Hi, bestie!</p>
+              <AryAvatar size={88} className="mx-auto" />
+              <p className="mt-4 font-script text-5xl text-denim">Hi, I&apos;m Ary!</p>
               <p className="mx-auto mt-3 max-w-md font-serif text-lg text-ink/75">
-                What are you creating today? Ask me for captions, content ideas,
-                picks from the library or feedback on your profile.
+                What are you creating today, bestie? Ask me for captions, content
+                ideas, picks from the library or feedback on your profile.
               </p>
             </div>
           ) : (
@@ -232,11 +235,14 @@ export default function AssistantChat() {
                   {m.content}
                 </p>
               ) : (
-                <div key={i} className="max-w-[92%] bg-cream px-4 py-3 font-serif text-lg leading-relaxed text-ink">
-                  {m.content ? <Markdown text={m.content} /> : <span className="text-cocoa/60">{status}</span>}
-                  {status && m.content && i === messages.length - 1 && (
-                    <p className="mt-2 text-base text-cocoa/60">{status}</p>
-                  )}
+                <div key={i} className="flex max-w-[95%] items-start gap-2">
+                  <AryAvatar size={34} className="mt-1" />
+                  <div className="min-w-0 bg-cream px-4 py-3 font-serif text-lg leading-relaxed text-ink">
+                    {m.content ? <Markdown text={m.content} /> : <span className="text-cocoa/60">{status}</span>}
+                    {status && m.content && i === messages.length - 1 && (
+                      <p className="mt-2 text-base text-cocoa/60">{status}</p>
+                    )}
+                  </div>
                 </div>
               ),
             )
@@ -277,8 +283,8 @@ export default function AssistantChat() {
             </button>
           </div>
           <p className="mt-2 font-serif text-sm text-cocoa/50">
-            The assistant can make mistakes, so check important details. Chats
-            are kept in this browser tab only.
+            Ary 1.0 is an AI content agent and can make mistakes, so check
+            important details. Chats are kept in this browser tab only.
           </p>
         </form>
       </div>

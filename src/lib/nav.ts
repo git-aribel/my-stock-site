@@ -20,7 +20,7 @@ export const HUB: NavGroup = {
   label: "Creator Hub",
   href: "/tools",
   links: [
-    { href: "/tools/assistant", label: "AI assistant", badge: "Members" },
+    { href: "/tools/ary", label: "Ary 1.0", badge: "Members" },
     { href: "/tools/content-calendar", label: "Content calendar" },
     { href: "/tools/grid-planner", label: "Grid planner" },
     { href: "/tools/font-pairing", label: "Font pairings" },

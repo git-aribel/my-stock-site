@@ -1,7 +1,8 @@
-// ✏️ AI ASSISTANT SETTINGS
-// Shown on the Creator Hub, the assistant page (for non-members) and used by the agent.
+// ✏️ ARY 1.0, THE CONTENT AGENT
+// Shown on the Creator Hub, Ary's page (for non-members) and used by the agent.
+// Her mascot is in src/components/AryAvatar.tsx.
 
-// Claude model the assistant runs on
+// Claude model Ary runs on
 export const ASSISTANT_MODEL = "claude-opus-5-5";
 // Messages each member can send per day (keeps costs predictable)
 export const DAILY_MESSAGE_LIMIT = 40;

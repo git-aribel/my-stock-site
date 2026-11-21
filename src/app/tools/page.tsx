@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ASSISTANT_SKILLS } from "@/lib/assistant";
+import AryAvatar from "@/components/AryAvatar";
 
 export const metadata: Metadata = {
   title: "Creator Hub | Socials Bestie",
   description:
-    "An AI content assistant for members, plus a free content calendar, Instagram & TikTok grid planner, font pairing generator and color palette generator.",
+    "Ary 1.0, a content agent for members, plus a free content calendar, Instagram & TikTok grid planner, font pairing generator and color palette generator.",
 };
 
 const tools = [
@@ -70,21 +71,25 @@ export default function ToolsPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-xl font-serif text-xl leading-relaxed text-cream/80">
             Everything you need to plan, write and design your content. Free
-            tools for everyone, and an AI assistant for members.
+            tools for everyone, and Ary 1.0, your content agent, for members.
           </p>
         </div>
       </section>
 
-      {/* AI assistant (members) */}
+      {/* Ary, the content agent (members) */}
       <section className="mx-auto max-w-5xl px-6 pt-16">
         <div className="relative grid gap-10 overflow-hidden bg-cocoa p-8 text-cream md:grid-cols-[1.1fr_1fr] md:p-12">
           <div>
             <span className="bg-periwinkle px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
               Members only
             </span>
-            <h2 className="mt-5 font-script text-6xl text-periwinkle md:text-7xl">
-              Your AI assistant
-            </h2>
+            <div className="mt-5 flex items-center gap-4">
+              <AryAvatar size={72} />
+              <div>
+                <h2 className="whitespace-nowrap font-script text-5xl text-periwinkle sm:text-6xl lg:text-7xl">Meet Ary 1.0</h2>
+                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-cream/70">Your content agent</p>
+              </div>
+            </div>
             <p className="mt-4 font-serif text-xl leading-relaxed text-cream/85">
               Like having a social media manager on call. Ask for captions,
               ideas or a plan, and get answers made for your brand.
@@ -100,10 +105,10 @@ export default function ToolsPage() {
               ))}
             </ul>
             <Link
-              href="/tools/assistant"
+              href="/tools/ary"
               className="mt-8 inline-block bg-periwinkle px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-cream"
             >
-              Meet your assistant
+              Chat with Ary
             </Link>
           </div>
 
@@ -112,13 +117,16 @@ export default function ToolsPage() {
             <p className="ml-auto max-w-[85%] bg-periwinkle px-4 py-3 text-cocoa">
               Write a hook for my coffee shop&apos;s new autumn latte reel ☕
             </p>
-            <div className="max-w-[90%] bg-cream px-4 py-3 text-ink">
+            <div className="flex max-w-[95%] items-end gap-2">
+            <AryAvatar size={36} />
+            <div className="bg-cream px-4 py-3 text-ink">
               <p>Here are 3 hooks to try:</p>
               <p className="mt-2">1. &ldquo;The latte you&apos;ll be thinking about all week…&rdquo;</p>
               <p>2. &ldquo;POV: autumn just arrived in a cup.&rdquo;</p>
               <p className="mt-2 text-base text-cocoa/70">
                 Pair it with one of the cozy café videos from the library.
               </p>
+            </div>
             </div>
           </div>
         </div>
@@ -154,7 +162,7 @@ export default function ToolsPage() {
           <h2 className="font-script text-6xl text-cream">Free account, free tools</h2>
           <p className="mx-auto mt-4 max-w-xl font-serif text-xl text-cream/85">
             Sign up for free to use the calendar, planner, fonts and palettes. Join the
-            club to unlock the AI assistant and unlimited downloads.
+            club to unlock Ary 1.0, your content agent, and unlimited downloads.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link href="/signup?next=/tools" className="bg-cream px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-periwinkle">
