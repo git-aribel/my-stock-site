@@ -4,9 +4,9 @@ import { ASSISTANT_SKILLS } from "@/lib/assistant";
 import AryAvatar from "@/components/AryAvatar";
 
 export const metadata: Metadata = {
-  title: "Creator Hub | Socials Bestie",
+  title: "Creator Hub",
   description:
-    "Ary 1.0, a content agent for members, plus a free content calendar, Instagram & TikTok grid planner, font pairing generator and color palette generator.",
+    "Free social media tools for small businesses and creators: a content calendar with social media holidays, an Instagram & TikTok grid planner, a font pairing generator, a color palette generator and Ary 1.0, your content agent.",
 };
 
 const tools = [

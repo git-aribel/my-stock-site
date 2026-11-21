@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import CheckoutButton from "@/components/CheckoutButton";
+import JsonLd from "@/components/JsonLd";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Pricing",
+  description:
+    "Join Socials Bestie from $19 a month. Organic stock videos, Canva templates, images, stickers, Ary your content agent and free planning tools in one membership. Cancel anytime.",
+};
+
 // ✏️ CHANGE YOUR PRICES HERE
 // These must match the prices in Stripe
 // (STRIPE_PRICE_MONTHLY / STRIPE_PRICE_QUARTERLY / STRIPE_PRICE_ANNUAL).
@@ -52,9 +62,44 @@ function formatPrice(n: number) {
   return Number.isInteger(n) ? `${n}` : n.toFixed(2);
 }
 
+// Tells Google about the plans and the FAQs on this page
+const pricingData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      name: `${SITE_NAME} membership`,
+      description:
+        "Organic stock videos, images, editable Canva templates, stickers, Ary 1.0 your content agent and free planning tools in one membership.",
+      brand: { "@type": "Brand", name: SITE_NAME },
+      offers: [
+        { name: "Monthly", price: MONTHLY_PRICE },
+        { name: "3 Months", price: QUARTERLY_PRICE },
+        { name: "Annual", price: ANNUAL_PRICE },
+      ].map((o) => ({
+        "@type": "Offer",
+        name: o.name,
+        price: o.price,
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: `${SITE_URL}/pricing`,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+};
+
 export default function PricingPage() {
   return (
     <div>
+      <JsonLd data={pricingData} />
       {/* Header band */}
       <section className="linen">
         <div className="mx-auto max-w-5xl px-6 py-16 text-center md:py-24">

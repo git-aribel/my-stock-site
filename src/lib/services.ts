@@ -9,6 +9,7 @@ export type ServiceField =
 export type Service = {
   slug: string;
   name: string;
+  seoTitle: string; // the title Google shows for the service page
   short: string; // one line for the card on /services
   intro: string; // under the title on the service page
   included: { title: string; text: string }[];
@@ -40,6 +41,7 @@ export const SERVICES: Service[] = [
   {
     slug: "website-creation",
     name: "Website creation",
+    seoTitle: "Website Design for Small Businesses",
     short:
       "A beautiful, easy-to-use website that looks like your brand and turns visitors into clients.",
     intro:
@@ -72,6 +74,7 @@ export const SERVICES: Service[] = [
   {
     slug: "social-media-management",
     name: "Social media management",
+    seoTitle: "Social Media Management for Small Businesses",
     short:
       "We plan, post and grow your accounts every month, so you can focus on running your business.",
     intro:
@@ -106,6 +109,7 @@ export const SERVICES: Service[] = [
   {
     slug: "content-creation",
     name: "Content creation",
+    seoTitle: "Content Creation for Small Businesses & Brands",
     short:
       "Photos, reels and templates made for your brand, ready to post and made to stop the scroll.",
     intro:
@@ -139,6 +143,7 @@ export const SERVICES: Service[] = [
   {
     slug: "ugc",
     name: "UGC",
+    seoTitle: "UGC Creator for Brands",
     short:
       "Authentic videos of real people using your product, made for your ads, website and social media.",
     intro:

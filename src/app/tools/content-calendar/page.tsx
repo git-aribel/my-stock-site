@@ -3,9 +3,9 @@ import ToolPage from "@/components/tools/ToolPage";
 import ContentCalendar from "@/components/tools/ContentCalendar";
 
 export const metadata: Metadata = {
-  title: "Content Calendar | Socials Bestie",
+  title: "Content Calendar",
   description:
-    "Plan your Instagram, TikTok and other social media posts on a simple monthly calendar. Free with a Socials Bestie account.",
+    "Free social media content calendar with social media holidays built in. Plan your Instagram, TikTok and other posts by month or week.",
 };
 
 export default function ContentCalendarPage() {

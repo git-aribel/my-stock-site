@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import {
   COMMISSION_MONTHS,
@@ -7,6 +8,12 @@ import {
   MIN_PAYOUT_CENTS,
   formatMoney,
 } from "@/lib/affiliates";
+
+export const metadata: Metadata = {
+  title: "Affiliate Terms",
+  description:
+    "The terms of the Socials Bestie affiliate program: commission, cookies and payouts.",
+};
 
 export default function AffiliateTermsPage() {
   return (

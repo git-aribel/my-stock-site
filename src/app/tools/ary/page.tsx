@@ -9,9 +9,9 @@ import AssistantChat from "@/components/tools/AssistantChat";
 import AryAvatar from "@/components/AryAvatar";
 
 export const metadata: Metadata = {
-  title: "Ary 1.0, Your Content Agent | Socials Bestie",
+  title: "Ary 1.0, Your Content Agent",
   description:
-    "Meet Ary 1.0, the members-only content agent for captions, hooks, content calendars, library picks and profile tips.",
+    "Meet Ary 1.0, your AI content agent: an Instagram caption generator, hook ideas, content plans, library picks and profile tips. Included in the Socials Bestie membership.",
 };
 
 // Members get the chat. Everyone else sees what they'd unlock.

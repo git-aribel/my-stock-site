@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Get in touch with Socials Bestie about the membership, services or partnerships.",
+};
 
 export default function ContactPage() {
   return (

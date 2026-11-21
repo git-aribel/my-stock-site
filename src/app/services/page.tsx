@@ -3,9 +3,9 @@ import Link from "next/link";
 import { SERVICES } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Services | Socials Bestie",
+  title: "Services",
   description:
-    "Website creation, social media management, content creation and UGC for small businesses and creators.",
+    "Done-for-you social media management, content creation, UGC and website design for small businesses and creators.",
 };
 
 export default function ServicesPage() {

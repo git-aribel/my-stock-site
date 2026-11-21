@@ -3,8 +3,8 @@ import ToolPage from "@/components/tools/ToolPage";
 import ColorPalette from "@/components/tools/ColorPalette";
 
 export const metadata: Metadata = {
-  title: "Color Palette Generator | Socials Bestie",
-  description: "Create a color palette and brand board for your brand. Free with a Socials Bestie account.",
+  title: "Color Palette Generator",
+  description: "Free color palette generator for your brand. Build a brand board with 5-color palettes and 2-color pairs for your Instagram and Canva designs.",
 };
 
 export default function ColorPalettePage() {

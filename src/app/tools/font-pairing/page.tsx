@@ -3,8 +3,8 @@ import ToolPage from "@/components/tools/ToolPage";
 import FontPairing from "@/components/tools/FontPairing";
 
 export const metadata: Metadata = {
-  title: "Font Pairing Generator | Socials Bestie",
-  description: "Find fonts that look beautiful together for your brand. Free with a Socials Bestie account.",
+  title: "Font Pairing Generator",
+  description: "Free font pairing generator. Find fonts that look beautiful together for your brand, Instagram posts and Canva designs, in your own colors.",
 };
 
 export default function FontPairingPage() {

@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ManageBillingButton from "@/components/ManageBillingButton";
+
+export const metadata: Metadata = {
+  title: "My account",
+  robots: { index: false, follow: false },
+};
 
 const PLAN_NAMES: Record<string, string> = {
   monthly: "Monthly",

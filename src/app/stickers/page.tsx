@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import CategoryPage from "@/components/CategoryPage";
+
+export const metadata: Metadata = {
+  title: "Stickers & Illustrations for Social Media",
+  description:
+    "Cute stickers and illustrations to layer over your Instagram stories, Reels and Canva designs.",
+};
 
 export default function StickersPage() {
   return (

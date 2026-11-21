@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+
+export const metadata: Metadata = {
+  title: "License",
+  description:
+    "What you can and can't do with Socials Bestie stock videos, images, templates and stickers.",
+};
 
 export default function LicensePage() {
   return (

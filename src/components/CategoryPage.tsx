@@ -3,7 +3,10 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import LibraryGrid from "@/components/LibraryGrid";
+import MembersTeaser from "@/components/MembersTeaser";
 import { ITEM_COLUMNS, publicPreviewUrl, toGridItem } from "@/lib/library";
+import { CATEGORIES } from "@/lib/categories";
+import { viewerIsMember } from "@/lib/access";
 
 type Props = {
   category: string;
@@ -22,8 +25,9 @@ async function Items({
   await connection();
 
   const supabase = await createClient();
+  const cat = CATEGORIES[category];
 
-  const [{ data: collections }, { data: rows }] = await Promise.all([
+  const [{ data: collections }, { data: rows }, { loggedIn, member }] = await Promise.all([
     supabase
       .from("collections")
       .select("id, name, slug, description, cover_path, cover_item_id")
@@ -34,11 +38,19 @@ async function Items({
       .select(ITEM_COLUMNS)
       .eq("category", category)
       .order("created_at", { ascending: false }),
+    viewerIsMember(supabase),
   ]);
 
   if (!rows || rows.length === 0) {
     return (
       <p className="text-center font-script text-5xl text-denim">coming soon</p>
+    );
+  }
+
+  // Non-members only see a small preview (none at all for templates)
+  if (!member && cat.preview === 0) {
+    return (
+      <MembersTeaser total={rows.length} shown={0} noun={cat.noun} loggedIn={loggedIn} next={cat.path} />
     );
   }
 
@@ -59,7 +71,8 @@ async function Items({
     })
     .filter((c) => c.count > 0);
 
-  const items = rows.map((r) => toGridItem(supabase, r));
+  const visible = member ? rows : rows.slice(0, cat.preview);
+  const items = visible.map((r) => toGridItem(supabase, r));
 
   return (
     <div>
@@ -103,6 +116,15 @@ async function Items({
       <div className="mt-10">
         <LibraryGrid items={items} aspect={aspect} columns={columns} />
       </div>
+      {!member && rows.length > visible.length && (
+        <MembersTeaser
+          total={rows.length}
+          shown={visible.length}
+          noun={cat.noun}
+          loggedIn={loggedIn}
+          next={cat.path}
+        />
+      )}
     </div>
   );
 }

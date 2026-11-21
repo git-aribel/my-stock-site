@@ -24,3 +24,12 @@ export async function hasDownloadAccess(
       new Date(s.current_period_end).getTime() > Date.now()
   );
 }
+
+// True when the person viewing the page is a paying member (or admin)
+export async function viewerIsMember(supabase: SupabaseClient) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { loggedIn: false, member: false };
+  return { loggedIn: true, member: await hasDownloadAccess(supabase, user.id) };
+}

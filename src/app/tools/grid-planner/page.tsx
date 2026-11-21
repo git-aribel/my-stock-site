@@ -3,8 +3,8 @@ import ToolPage from "@/components/tools/ToolPage";
 import GridPlanner from "@/components/tools/GridPlanner";
 
 export const metadata: Metadata = {
-  title: "Instagram & TikTok Grid Planner | Socials Bestie",
-  description: "Plan your Instagram feed and TikTok profile before you post. Free with a Socials Bestie account.",
+  title: "Instagram & TikTok Grid Planner",
+  description: "Free Instagram grid planner and TikTok profile preview. Drag in your posts and see how your feed looks before you post.",
 };
 
 export default function GridPlannerPage() {

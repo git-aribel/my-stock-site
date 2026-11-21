@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import DashboardPreview from "@/components/DashboardPreview";
 import {
@@ -8,6 +9,12 @@ import {
   MIN_PAYOUT_CENTS,
   formatMoney,
 } from "@/lib/affiliates";
+
+export const metadata: Metadata = {
+  title: "Affiliate Program",
+  description:
+    "Earn recurring commission by sharing Socials Bestie, the content studio for small businesses and creators. Free to join.",
+};
 
 const JOIN_HREF = "/affiliates/join";
 
@@ -33,7 +40,7 @@ const reasons = [
   },
   {
     title: "Easy to recommend",
-    text: "Vintage-inspired videos, Canva templates, images and stickers that creators actually use, all in one membership.",
+    text: "Organic videos, Canva templates, images and stickers that don't feel like stock, and that creators actually use. All in one membership.",
   },
   {
     title: "Made for creators",

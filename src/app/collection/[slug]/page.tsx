@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import LibraryGrid from "@/components/LibraryGrid";
 import { CATEGORIES } from "@/lib/categories";
 import { ITEM_COLUMNS, toGridItem } from "@/lib/library";
+import { viewerIsMember } from "@/lib/access";
+import MembersTeaser from "@/components/MembersTeaser";
 
 async function CollectionView({
   params,
@@ -32,7 +34,11 @@ async function CollectionView({
     .eq("collection_id", collection.id)
     .order("created_at", { ascending: false });
 
-  const items = (rows ?? []).map((r) => toGridItem(supabase, r));
+  // Non-members only see a small preview (none at all for templates)
+  const { loggedIn, member } = await viewerIsMember(supabase);
+  const all = rows ?? [];
+  const visible = member ? all : all.slice(0, cat.preview);
+  const items = visible.map((r) => toGridItem(supabase, r));
 
   return (
     <div>
@@ -56,16 +62,29 @@ async function CollectionView({
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-16">
-        {items.length === 0 ? (
+        {all.length === 0 ? (
           <p className="text-center font-script text-5xl text-denim">
             coming soon
           </p>
         ) : (
-          <LibraryGrid
-            items={items}
-            aspect={cat.aspect}
-            columns={cat.columns}
-          />
+          <>
+            {items.length > 0 && (
+              <LibraryGrid
+                items={items}
+                aspect={cat.aspect}
+                columns={cat.columns}
+              />
+            )}
+            {!member && all.length > visible.length && (
+              <MembersTeaser
+                total={all.length}
+                shown={visible.length}
+                noun={cat.noun}
+                loggedIn={loggedIn}
+                next={`/collection/${slug}`}
+              />
+            )}
+          </>
         )}
       </section>
     </div>

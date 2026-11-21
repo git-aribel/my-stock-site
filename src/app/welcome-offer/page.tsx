@@ -13,7 +13,7 @@ import {
 import { CodeBox, WelcomeOfferForm } from "@/components/WelcomeOffer";
 
 export const metadata: Metadata = {
-  title: `${OFFER_PERCENT}% Off Your First Payment | Socials Bestie`,
+  title: `${OFFER_PERCENT}% Off Your First Payment`,
   description: `Join the Socials Bestie email list and get ${OFFER_PERCENT}% off your first membership payment.`,
 };
 

@@ -7,7 +7,7 @@ import { hasDownloadAccess } from "@/lib/access";
 import { publicPreviewUrl } from "@/lib/library";
 import { NewBoardForm } from "@/components/BoardControls";
 
-export const metadata: Metadata = { title: "My boards | Socials Bestie" };
+export const metadata: Metadata = { title: "My boards", robots: { index: false, follow: false } };
 
 function MembersOnly({ loggedIn }: { loggedIn: boolean }) {
   return (

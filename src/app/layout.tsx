@@ -1,32 +1,77 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost, Imperial_Script } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import "./globals.css";
 import Link from "next/link";
 import ReferralBanner from "@/components/ReferralBanner";
 import { FOOTER } from "@/lib/nav";
+import JsonLd from "@/components/JsonLd";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
-const jost = Jost({
-  variable: "--font-jost",
+// Body text. Served from this site (no outside requests).
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const imperial = Imperial_Script({
-  variable: "--font-imperial",
-  subsets: ["latin"],
-  weight: "400",
-});
+// Titles use Satoshi, loaded from Fontshare's servers as its license allows
+const SATOSHI_CSS = "https://api.fontshare.com/v2/css?f[]=satoshi@500,700&display=swap";
 
 export const metadata: Metadata = {
-  title: "Socials Bestie | Stock Videos & Canva Templates",
-  description:
-    "Vintage-inspired stock videos and Canva templates to make your content effortless.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    // Every other page: "Page name | Socials Bestie"
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "social media content for small businesses",
+    "content membership",
+    "organic stock videos",
+    "stock videos for Instagram Reels and TikTok",
+    "Canva templates for Instagram",
+    "social media content calendar",
+    "Instagram grid planner",
+    "social media management",
+    "UGC creator",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    locale: "en",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+};
+
+// Tells Google who runs the site and what it's called
+const organizationData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -34,9 +79,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${jost.variable} ${cormorant.variable} ${imperial.variable} antialiased`}
-      >
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href={SATOSHI_CSS} />
+      </head>
+      <body className={`${dmSans.variable} antialiased`}>
+        <JsonLd data={organizationData} />
         <Header />
         <main>{children}</main>
         <footer className="linen py-14">

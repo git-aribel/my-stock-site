@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { connection } from "next/server";
@@ -12,6 +13,11 @@ import {
   formatMoney,
   holdCutoff,
 } from "@/lib/affiliates";
+
+export const metadata: Metadata = {
+  title: "Join the affiliate program",
+  robots: { index: false, follow: false },
+};
 
 const label = "text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/60";
 

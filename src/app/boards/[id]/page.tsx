@@ -9,7 +9,7 @@ import { ITEM_COLUMNS, toGridItem } from "@/lib/library";
 import LibraryGrid from "@/components/LibraryGrid";
 import { BoardActions } from "@/components/BoardControls";
 
-export const metadata: Metadata = { title: "Board | Socials Bestie" };
+export const metadata: Metadata = { title: "Board", robots: { index: false, follow: false } };
 
 async function BoardView({ params }: { params: Promise<{ id: string }> }) {
   await connection();

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SERVICES, getService } from "@/lib/services";
 import ServiceInquiryForm from "@/components/ServiceInquiryForm";
+import JsonLd from "@/components/JsonLd";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -18,7 +20,7 @@ export async function generateMetadata({
   const service = getService(slug);
   if (!service) return {};
   return {
-    title: `${service.name} | Socials Bestie`,
+    title: service.seoTitle,
     description: service.short,
   };
 }
@@ -49,6 +51,18 @@ async function ServiceView({
 
   return (
     <div>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: service.seoTitle,
+          serviceType: service.name,
+          description: service.short,
+          url: `${SITE_URL}/services/${service.slug}`,
+          provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+          audience: { "@type": "Audience", audienceType: "Small businesses and creators" },
+        }}
+      />
       {/* Intro */}
       <section className="linen">
         <div className="mx-auto max-w-3xl px-6 py-16 text-center md:py-24">

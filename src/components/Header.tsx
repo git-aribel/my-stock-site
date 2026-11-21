@@ -1,21 +1,22 @@
 import Link from "next/link";
 import AuthButtons from "@/components/AuthButtons";
 import MobileMenu from "@/components/MobileMenu";
-import { NAV, isGroup } from "@/lib/nav";
+import { NAV, isGroup, type NavItem } from "@/lib/nav";
 
 const topLink =
-  "flex items-center gap-1.5 py-2 text-[0.7rem] font-light uppercase tracking-[0.25em] text-cocoa hover:text-denim";
+  "flex items-center gap-1.5 whitespace-nowrap py-2 text-[0.7rem] font-light uppercase tracking-[0.18em] text-cocoa hover:text-denim";
+
+// Dropdowns on the left, simple links (Pricing, Affiliates) on the right
+const LEFT: NavItem[] = NAV.filter(isGroup);
+const RIGHT = NAV.filter((item) => !isGroup(item)) as { href: string; label: string }[];
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-cocoa/20 bg-cream/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:gap-6 sm:px-6">
-        <Link href="/" className="shrink-0 font-script text-4xl text-denim">
-          Socials Bestie
-        </Link>
-
-        <nav className="hidden items-center gap-7 lg:flex">
-          {NAV.map((item) =>
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6">
+        {/* Menu on the left, logo in the middle, account on the right */}
+        <nav className="hidden items-center gap-6 lg:flex">
+          {LEFT.map((item) =>
             isGroup(item) ? (
               <div key={item.label} className="group relative">
                 {item.href ? (
@@ -64,9 +65,22 @@ export default function Header() {
             ),
           )}
         </nav>
+        <span className="lg:hidden" />
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-          <AuthButtons />
+        <Link href="/" className="shrink-0 font-script text-4xl text-denim">
+          Socials Bestie
+        </Link>
+
+        <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-5">
+          {RIGHT.map((l) => (
+            <Link key={l.href} href={l.href} className={`${topLink} hidden lg:flex`}>
+              {l.label}
+            </Link>
+          ))}
+          {/* On phones, account links live in the menu so the logo stays centered */}
+          <div className="hidden whitespace-nowrap sm:block">
+            <AuthButtons />
+          </div>
           <MobileMenu />
         </div>
       </div>

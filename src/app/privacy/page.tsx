@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "How Socials Bestie collects, uses and protects your personal data.",
+};
 
 export default function PrivacyPage() {
   return (
@@ -39,7 +46,7 @@ export default function PrivacyPage() {
         {
           heading: "4. Who we share it with",
           body: [
-            "We use trusted providers who process data on our behalf: Supabase (accounts and database), Stripe (payments), Cloudflare (file storage), Vercel (website hosting), and [YOUR EMAIL SERVICE] (sending emails). They may only use your data to provide their service to us.",
+            "We use trusted providers who process data on our behalf: Supabase (accounts and database), Stripe (payments), Cloudflare (file storage), Vercel (website hosting), Fontshare by Indian Type Foundry (serves the font used for headings, which means your browser connects to their servers and they receive your IP address), and [YOUR EMAIL SERVICE] (sending emails). They may only use your data to provide their service to us.",
             "We may also share data when the law requires it, or to protect our rights or prevent fraud. We do not sell your personal data.",
           ],
         },

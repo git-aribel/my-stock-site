@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "The terms of service for the Socials Bestie website and membership.",
+};
 
 export default function TermsPage() {
   return (
