@@ -9,6 +9,7 @@ const annualPerMonth = ANNUAL_PRICE / 12;
 const annualSavings = Math.round((1 - annualPerMonth / MONTHLY_PRICE) * 100);
 
 const freeFeatures = [
+  "Content calendar",
   "Instagram & TikTok grid planner",
   "Font pairing generator",
   "Color palette generator",

@@ -5,10 +5,26 @@ import { ASSISTANT_SKILLS } from "@/lib/assistant";
 export const metadata: Metadata = {
   title: "Creator Hub | Socials Bestie",
   description:
-    "An AI content assistant for members, plus a free Instagram & TikTok grid planner, font pairing generator and color palette generator.",
+    "An AI content assistant for members, plus a free content calendar, Instagram & TikTok grid planner, font pairing generator and color palette generator.",
 };
 
 const tools = [
+  {
+    href: "/tools/content-calendar",
+    name: "Content calendar",
+    text: "Plan what to post and when, with captions, posting times and progress for every post.",
+    art: (
+      <div className="grid w-28 grid-cols-7 gap-0.5">
+        {Array.from({ length: 28 }, (_, i) => (
+          <span
+            key={i}
+            className="aspect-square"
+            style={{ background: [2, 5, 9, 13, 16, 20, 24].includes(i) ? ["#c79f9b", "#46608a", "#4a2f27", "#8ea7bf"][i % 4] : "#f6f0e6" }}
+          />
+        ))}
+      </div>
+    ),
+  },
   {
     href: "/tools/grid-planner",
     name: "Grid planner",
@@ -114,7 +130,7 @@ export default function ToolsPage() {
         </p>
       </section>
 
-      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-16 pt-6 md:grid-cols-3">
+      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-16 pt-6 md:grid-cols-2">
         {tools.map((t) => (
           <Link
             key={t.href}
@@ -137,7 +153,7 @@ export default function ToolsPage() {
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">
           <h2 className="font-script text-6xl text-cream">Free account, free tools</h2>
           <p className="mx-auto mt-4 max-w-xl font-serif text-xl text-cream/85">
-            Sign up for free to use the planner, fonts and palettes. Join the
+            Sign up for free to use the calendar, planner, fonts and palettes. Join the
             club to unlock the AI assistant and unlimited downloads.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
