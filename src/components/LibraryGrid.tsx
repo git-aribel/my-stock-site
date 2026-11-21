@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { downloadZip } from "client-zip";
 import DownloadButton from "@/components/DownloadButton";
 import PreviewMedia from "@/components/PreviewMedia";
@@ -29,11 +29,12 @@ const MAX_ITEMS = 50;
 
 export default function LibraryGrid({ items, aspect, columns }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
   const allTags = Array.from(

@@ -20,6 +20,8 @@ const features = [
   "Unlimited video downloads",
   "Unlimited Canva templates",
   "Images and stickers included",
+  "AI content assistant",
+  "All free Creator Hub tools",
   "Bulk download in one click",
   "New content added regularly",
   "Cancel anytime",
