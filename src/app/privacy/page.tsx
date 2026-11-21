@@ -19,6 +19,7 @@ export default function PrivacyPage() {
             "Account data: your email address and password (stored only in protected, encrypted form).",
             "Membership data: your plan, billing period, and subscription status. Payments are processed by Stripe, and we never see or store your full card details.",
             "Affiliate data: if you join our affiliate program, your chosen code, payout email, and earnings.",
+            "Inquiry data: if you ask about one of our services, the details you put in the form, such as your name, email, business, budget and project description. We use them only to reply to you and prepare a proposal.",
             "Technical data: basic information needed to run and secure the site, such as your IP address and device type, in server logs.",
             "If you give us personal data voluntarily, such as when you email us, we keep what we need to help you. Not giving us the data we need to create your account may stop us from providing the service.",
           ],

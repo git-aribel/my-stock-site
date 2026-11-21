@@ -9,7 +9,7 @@ export default function MobileMenu({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close menu" : "Open menu"}
