@@ -1,9 +1,14 @@
 import Link from "next/link";
 import CheckoutButton from "@/components/CheckoutButton";
 // ✏️ CHANGE YOUR PRICES HERE
-// These must match the prices in Stripe (STRIPE_PRICE_MONTHLY / STRIPE_PRICE_ANNUAL).
+// These must match the prices in Stripe
+// (STRIPE_PRICE_MONTHLY / STRIPE_PRICE_QUARTERLY / STRIPE_PRICE_ANNUAL).
 const MONTHLY_PRICE = 19;
+const QUARTERLY_PRICE = 49;
 const ANNUAL_PRICE = 180;
+
+const quarterlyPerMonth = QUARTERLY_PRICE / 3;
+const quarterlySavings = Math.round((1 - quarterlyPerMonth / MONTHLY_PRICE) * 100);
 
 const annualPerMonth = ANNUAL_PRICE / 12;
 const annualSavings = Math.round((1 - annualPerMonth / MONTHLY_PRICE) * 100);
@@ -21,7 +26,7 @@ const features = [
   "Unlimited video downloads",
   "Unlimited Canva templates",
   "Images and stickers included",
-  "AI content assistant",
+  "Ary 1.0, your content agent",
   "All free Creator Hub tools",
   "Bulk download in one click",
   "New content added regularly",
@@ -67,8 +72,8 @@ export default function PricingPage() {
       </section>
 
       {/* Plans */}
-      <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="grid gap-8 md:grid-cols-3 md:items-start">
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-6 md:grid-cols-2 md:items-start xl:grid-cols-4">
           {/* Free */}
           <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
             <h2 className="font-script text-5xl text-denim">Free</h2>
@@ -99,6 +104,23 @@ export default function PricingPage() {
             <p className="mt-4 font-serif text-lg">Everything, month to month</p>
             <FeatureList items={features} />
             <CheckoutButton planId="monthly" planName="Monthly" featured={false} />
+          </div>
+
+          {/* 3 months */}
+          <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
+            <h2 className="font-script text-5xl text-denim">3 Months</h2>
+            <p className="mt-6 font-serif text-6xl">
+              ${formatPrice(quarterlyPerMonth)}
+              <span className="text-2xl text-cocoa/70"> / month</span>
+            </p>
+            <p className="mt-2 text-[0.65rem] uppercase tracking-[0.25em] text-denim">
+              Save {quarterlySavings}%
+            </p>
+            <p className="mt-4 font-serif text-lg">
+              ${formatPrice(QUARTERLY_PRICE)} billed every 3 months
+            </p>
+            <FeatureList items={features} />
+            <CheckoutButton planId="quarterly" planName="3 Months" featured={false} />
           </div>
 
           {/* Annual */}

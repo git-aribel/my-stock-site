@@ -72,7 +72,7 @@ async function Offer() {
           ))}
         </ul>
         <p className="mt-6 font-serif text-lg text-cocoa/70">
-          Your {OFFER_PERCENT}% discount works on any plan: Monthly or Annual.
+          Your {OFFER_PERCENT}% discount works on any plan: Monthly, 3 Months or Annual.
         </p>
       </div>
 
