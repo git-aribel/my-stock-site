@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { downloadZip } from "client-zip";
 import DownloadButton from "@/components/DownloadButton";
 import PreviewMedia from "@/components/PreviewMedia";
+import SaveToBoard from "@/components/SaveToBoard";
 
 type Item = {
   id: string;
@@ -242,7 +243,8 @@ export default function LibraryGrid({ items, aspect, columns }: Props) {
       ) : (
         <div className={`grid gap-6 ${columns}`}>
           {visible.map((item) => (
-            <div key={item.id} className="border border-cocoa/25 bg-paper p-2">
+            <div key={item.id} className="relative border border-cocoa/25 bg-paper p-2">
+              <SaveToBoard itemId={item.id} title={item.title} />
               <div className={`relative ${aspect} overflow-hidden bg-rose/40`}>
                 <PreviewMedia
                   imageUrl={item.previewUrl}
