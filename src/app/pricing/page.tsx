@@ -123,6 +123,14 @@ export default function PricingPage() {
         </div>
       </section>
 
+      <p className="-mt-6 mb-16 px-6 text-center font-serif text-lg text-cocoa/70">
+        New here?{" "}
+        <Link href="/welcome-offer" className="text-denim underline hover:text-cocoa">
+          Join our email list for 15% off
+        </Link>{" "}
+        your first payment.
+      </p>
+
       {/* FAQ */}
       <section className="bg-rose py-20">
         <div className="mx-auto max-w-3xl px-6">

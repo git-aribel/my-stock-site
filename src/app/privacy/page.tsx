@@ -4,7 +4,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="20 November 2026"
+      updated="21 November 2026"
       intro="This policy explains what personal data Socials Bestie collects when you use our website and buy a membership, why we collect it, who sees it, and what rights you have."
       sections={[
         {
@@ -19,6 +19,8 @@ export default function PrivacyPage() {
             "Account data: your email address and password (stored only in protected, encrypted form).",
             "Membership data: your plan, billing period, and subscription status. Payments are processed by Stripe, and we never see or store your full card details.",
             "Affiliate data: if you join our affiliate program, your chosen code, payout email, and earnings.",
+            "Email list data: if you join our email list for the welcome offer, your email address, the date you signed up, the wording you agreed to and your personal discount code, so we can give you the discount and send you occasional emails.",
+            "Content you create in our tools: if you use the content calendar or save items to boards, the posts and boards you create, so they're kept in your account.",
             "Inquiry data: if you ask about one of our services, the details you put in the form, such as your name, email, business, budget and project description. We use them only to reply to you and prepare a proposal.",
             "Technical data: basic information needed to run and secure the site, such as your IP address and device type, in server logs.",
             "If you give us personal data voluntarily, such as when you email us, we keep what we need to help you. Not giving us the data we need to create your account may stop us from providing the service.",
@@ -52,6 +54,8 @@ export default function PrivacyPage() {
           body: [
             "We use essential cookies that keep you logged in. These do not need your consent.",
             "If you arrive through a partner's referral link, we ask your permission before saving a referral cookie (called sb_ref) for 60 days. It records which partner referred you, so they can receive credit if you buy a membership. If you decline, we do not save it.",
+            "If you sign up for the welcome offer, we save a cookie (called sb_offer) for 90 days so your discount is applied automatically when you join. It is needed to give you the discount you asked for.",
+            "Some tools remember small preferences on your device, such as whether you prefer the week or month calendar. These stay in your browser and are not shared with us.",
             "We do not use advertising or tracking cookies.",
           ],
         },
@@ -77,6 +81,7 @@ export default function PrivacyPage() {
         {
           heading: "10. Marketing emails",
           body: [
+            "We only send marketing emails if you agreed, for example when you signed up for our welcome offer. We keep a record of when you agreed and what you agreed to. You can unsubscribe at any time using the link in the email or by emailing [CONTACT EMAIL]. We keep your email on the list until you unsubscribe.",
             "If you receive marketing emails from us, you can unsubscribe at any time using the link in the email. You will still receive service emails, such as receipts and password resets.",
           ],
         },

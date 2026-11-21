@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { REFERRAL_COOKIE, normalizeCode } from "@/lib/affiliates";
+import { OFFER_COOKIE, getOffer, isCodeUsable } from "@/lib/welcomeOffer";
 
 // Returns affiliate metadata for the subscription, if this visitor accepted
 // a partner's referral cookie and is a brand new member.
@@ -76,12 +77,20 @@ export async function POST(request: Request) {
   const origin = new URL(request.url).origin;
   const referral = await referralMetadata(user.id);
 
+  // Apply the welcome-offer code from this device automatically, if it
+  // can still be used. Otherwise let people type a code at checkout.
+  const offer = await getOffer((await cookies()).get(OFFER_COOKIE)?.value);
+  const promoCodeId = offer && (await isCodeUsable(offer.promoCodeId)) ? offer.promoCodeId : null;
+
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     line_items: [{ price: priceId, quantity: 1 }],
     customer_email: user.email,
     client_reference_id: user.id,
     subscription_data: { metadata: { user_id: user.id, plan, ...referral } },
+    ...(promoCodeId
+      ? { discounts: [{ promotion_code: promoCodeId }] }
+      : { allow_promotion_codes: true }),
     success_url: `${origin}/success`,
     cancel_url: `${origin}/pricing`,
   });

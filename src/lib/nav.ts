@@ -12,6 +12,7 @@ export const LIBRARY: NavGroup = {
     { href: "/templates", label: "Templates" },
     { href: "/images", label: "Images" },
     { href: "/stickers", label: "Stickers" },
+    { href: "/boards", label: "My boards", badge: "Members" },
   ],
 };
 
@@ -47,7 +48,14 @@ export const NAV: NavItem[] = [
 ];
 
 export const FOOTER: NavGroup[] = [
-  { ...LIBRARY, links: [...LIBRARY.links, { href: "/pricing", label: "Pricing" }] },
+  {
+    ...LIBRARY,
+    links: [
+      ...LIBRARY.links,
+      { href: "/welcome-offer", label: "15% welcome offer" },
+      { href: "/pricing", label: "Pricing" },
+    ],
+  },
   HUB,
   { ...SERVICES_NAV, links: SERVICES_NAV.links.map((l) => ({ ...l, label: l.label.replace(" management", "") })) },
   {

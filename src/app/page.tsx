@@ -102,6 +102,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Welcome offer */}
+      <section className="mx-auto mt-24 max-w-5xl px-6">
+        <div className="panel-denim flex flex-col items-center gap-6 px-8 py-12 text-center md:flex-row md:justify-between md:text-left">
+          <div>
+            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-cream/70">
+              Welcome offer
+            </p>
+            <h2 className="mt-2 font-script text-5xl text-cream md:text-6xl">
+              15% off, bestie
+            </h2>
+            <p className="mt-3 max-w-md font-serif text-xl text-cream/85">
+              Join our email list and get 15% off your first membership
+              payment, on any plan.
+            </p>
+          </div>
+          <Link
+            href="/welcome-offer"
+            className="shrink-0 bg-cream px-8 py-3.5 text-[0.7rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-periwinkle"
+          >
+            Get my 15% off
+          </Link>
+        </div>
+      </section>
+
       {/* Dusty rose band with stamp-style button */}
       <section className="mt-24 bg-rose py-20">
         <div className="mx-auto max-w-3xl px-6 text-center">
