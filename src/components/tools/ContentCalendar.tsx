@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { holidaysBetween, type Holiday } from "@/lib/holidays";
 
 // ✏️ Options people can choose for each post
 const PLATFORMS = [
@@ -32,7 +34,7 @@ type Post = {
   status: Status;
 };
 
-type Draft = Omit<Post, "id"> & { id?: string };
+type Draft = Omit<Post, "id"> & { id?: string; holiday?: Holiday };
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const label = "block text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/70";
@@ -68,6 +70,7 @@ function weekDays(anchor: Date) {
 
 type View = "month" | "week";
 const VIEW_KEY = "sb_calendar_view";
+const HOLIDAYS_KEY = "sb_calendar_holidays";
 
 function platformColor(name: string) {
   return PLATFORMS.find((p) => p.name === name)?.color ?? "#8ea7bf";
@@ -84,6 +87,7 @@ export default function ContentCalendar() {
   const [editing, setEditing] = useState<Draft | null>(null);
   const [saving, setSaving] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [showHolidays, setShowHolidays] = useState(true);
 
   const year = anchor.getFullYear();
   const month = anchor.getMonth();
@@ -123,8 +127,39 @@ export default function ContentCalendar() {
       const saved = localStorage.getItem(VIEW_KEY);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       if (saved === "week" || saved === "month") setView(saved);
+      if (localStorage.getItem(HOLIDAYS_KEY) === "off") setShowHolidays(false);
     } catch {}
   }, []);
+
+  function toggleHolidays() {
+    setShowHolidays((on) => {
+      try {
+        localStorage.setItem(HOLIDAYS_KEY, on ? "off" : "on");
+      } catch {}
+      return !on;
+    });
+  }
+
+  // Social media holidays for the days on screen
+  const holidaysByDay = useMemo(() => {
+    const map = new Map<string, Holiday[]>();
+    if (!showHolidays) return map;
+    for (const h of holidaysBetween(rangeStart, rangeEnd)) map.set(h.date, [...(map.get(h.date) ?? []), h]);
+    return map;
+  }, [showHolidays, rangeStart, rangeEnd]);
+
+  function planHoliday(h: Holiday) {
+    setEditing({
+      date: h.date,
+      time: null,
+      platform: filter.length === 1 ? filter[0] : "Instagram",
+      format: "Post",
+      title: h.name,
+      caption: h.idea,
+      status: "idea",
+      holiday: h,
+    });
+  }
 
   function changeView(v: View) {
     setView(v);
@@ -323,6 +358,16 @@ export default function ContentCalendar() {
               </button>
             );
           })}
+          <button
+            type="button"
+            aria-pressed={showHolidays}
+            onClick={toggleHolidays}
+            className={`flex items-center gap-2 px-3 py-1 font-serif text-base transition ${
+              showHolidays ? "bg-[#f9e9a8] text-ink" : "border border-cocoa/25 text-ink/60 hover:bg-rose/25"
+            }`}
+          >
+            🎉 Holidays
+          </button>
           {filter.length > 0 && (
             <button type="button" onClick={() => setFilter([])} className="font-serif text-base text-denim underline">
               Show all
@@ -383,6 +428,9 @@ export default function ContentCalendar() {
                   </button>
                 </div>
                 <div className="mt-1 space-y-1">
+                  {(holidaysByDay.get(key) ?? []).map((h) => (
+                    <HolidayTag key={h.name} holiday={h} onPlan={() => planHoliday(h)} />
+                  ))}
                   {dayPosts.map((p) => (
                     <PostChip key={p.id} post={p} onOpen={() => setEditing(p)} onDragStart={() => setDragId(p.id)} />
                   ))}
@@ -403,7 +451,8 @@ export default function ContentCalendar() {
           .map((d) => {
             const key = ymd(d);
             const dayPosts = byDay.get(key) ?? [];
-            if (dayPosts.length === 0 && key !== todayKey) return null;
+            const dayHolidays = holidaysByDay.get(key) ?? [];
+            if (dayPosts.length === 0 && dayHolidays.length === 0 && key !== todayKey) return null;
             return (
               <div key={key} className="border border-cocoa/20 bg-paper p-3">
                 <div className="flex items-center justify-between">
@@ -416,6 +465,9 @@ export default function ContentCalendar() {
                   </button>
                 </div>
                 <div className="mt-2 space-y-1.5">
+                  {dayHolidays.map((h) => (
+                    <HolidayTag key={h.name} holiday={h} onPlan={() => planHoliday(h)} />
+                  ))}
                   {dayPosts.map((p) => (
                     <PostChip key={p.id} post={p} onOpen={() => setEditing(p)} />
                   ))}
@@ -457,6 +509,9 @@ export default function ContentCalendar() {
                   <p className="font-serif text-2xl leading-tight">{d.getDate()}</p>
                 </div>
                 <div className="flex-1 space-y-2 p-1.5">
+                  {(holidaysByDay.get(key) ?? []).map((h) => (
+                    <HolidayTag key={h.name} holiday={h} onPlan={() => planHoliday(h)} />
+                  ))}
                   {dayPosts.map((p) => (
                     <WeekCard key={p.id} post={p} onOpen={() => setEditing(p)} onDragStart={() => setDragId(p.id)} />
                   ))}
@@ -494,13 +549,20 @@ export default function ContentCalendar() {
                   +
                 </button>
               </div>
+              {(holidaysByDay.get(key) ?? []).length > 0 && (
+                <div className="mt-2 space-y-1.5">
+                  {(holidaysByDay.get(key) ?? []).map((h) => (
+                    <HolidayTag key={h.name} holiday={h} onPlan={() => planHoliday(h)} />
+                  ))}
+                </div>
+              )}
               {dayPosts.length > 0 ? (
                 <div className="mt-2 space-y-2">
                   {dayPosts.map((p) => (
                     <WeekCard key={p.id} post={p} onOpen={() => setEditing(p)} />
                   ))}
                 </div>
-              ) : (
+              ) : (holidaysByDay.get(key) ?? []).length > 0 ? null : (
                 <p className="mt-1 font-serif text-base text-cocoa/40">Nothing planned</p>
               )}
             </div>
@@ -526,6 +588,21 @@ export default function ContentCalendar() {
         />
       )}
     </div>
+  );
+}
+
+// A social media holiday; clicking it starts a post for that day
+function HolidayTag({ holiday, onPlan }: { holiday: Holiday; onPlan: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onPlan}
+      title={`${holiday.name}: ${holiday.idea} Click to plan a post.`}
+      className="flex w-full items-center gap-1 bg-[#f9e9a8]/80 px-1.5 py-0.5 text-left font-serif text-xs leading-tight text-ink transition hover:bg-[#f9e9a8]"
+    >
+      <span aria-hidden="true">🎉</span>
+      <span className="truncate">{holiday.name}</span>
+    </button>
   );
 }
 
@@ -667,6 +744,29 @@ function PostEditor({
             ×
           </button>
         </div>
+
+        {draft.holiday && !draft.id && (
+          <div className="mt-3 bg-[#f9e9a8]/60 p-3 font-serif text-base text-ink">
+            <p>
+              <span aria-hidden="true">🎉 </span>
+              <strong className="font-semibold">{draft.holiday.name}</strong>: {draft.holiday.idea}
+            </p>
+            <p className="mt-1 text-sm">
+              Find matching content:{" "}
+              <Link href={`/videos?q=${encodeURIComponent(draft.holiday.search)}`} className="text-denim underline">
+                videos
+              </Link>
+              {" · "}
+              <Link href={`/templates?q=${encodeURIComponent(draft.holiday.search)}`} className="text-denim underline">
+                templates
+              </Link>
+              {" · "}
+              <Link href={`/images?q=${encodeURIComponent(draft.holiday.search)}`} className="text-denim underline">
+                images
+              </Link>
+            </p>
+          </div>
+        )}
 
         <div className="mt-4 space-y-4">
           <label className={label}>
