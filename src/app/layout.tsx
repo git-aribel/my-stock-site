@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import "./globals.css";
 import Link from "next/link";
 import ReferralBanner from "@/components/ReferralBanner";
+import { FOOTER } from "@/lib/nav";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -38,28 +39,37 @@ export default function RootLayout({
       >
         <Header />
         <main>{children}</main>
-        <footer className="linen py-14 text-center">
-          <p className="font-script text-5xl text-periwinkle">Socials Bestie</p>
-          <nav className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-3 text-[0.65rem] uppercase tracking-[0.25em] text-cream/70">
-            <Link href="/faq" className="hover:text-periwinkle">
-              FAQ
-            </Link>
-            <Link href="/contact" className="hover:text-periwinkle">
-              Contact
-            </Link>
-            <Link href="/terms" className="hover:text-periwinkle">
-              Terms
-            </Link>
-            <Link href="/privacy" className="hover:text-periwinkle">
-              Privacy
-            </Link>
-            <Link href="/license" className="hover:text-periwinkle">
-              License
-            </Link>
-          </nav>
-          <p className="mt-6 text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
-            © 2026 Socials Bestie. All rights reserved.
-          </p>
+        <footer className="linen py-14">
+          <div className="mx-auto max-w-6xl px-6">
+            <p className="text-center font-script text-5xl text-periwinkle">Socials Bestie</p>
+            <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+              {FOOTER.map((group) => (
+                <div key={group.label}>
+                  <p className="text-[0.6rem] uppercase tracking-[0.3em] text-periwinkle">
+                    {group.href ? (
+                      <Link href={group.href} className="hover:text-cream">
+                        {group.label}
+                      </Link>
+                    ) : (
+                      group.label
+                    )}
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    {group.links.map((l) => (
+                      <li key={l.href}>
+                        <Link href={l.href} className="font-serif text-lg text-cream/75 hover:text-periwinkle">
+                          {l.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p className="mt-12 text-center text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
+              © 2026 Socials Bestie. All rights reserved.
+            </p>
+          </div>
         </footer>
         <ReferralBanner />
       </body>
