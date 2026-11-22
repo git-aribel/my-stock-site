@@ -243,7 +243,7 @@ export default function LibraryGrid({ items, aspect, columns }: Props) {
       ) : (
         <div className={`grid gap-6 ${columns}`}>
           {visible.map((item) => (
-            <div key={item.id} className="relative border border-cocoa/25 bg-paper p-2">
+            <div key={item.id} className="lift relative border border-cocoa/25 bg-paper p-2">
               <SaveToBoard itemId={item.id} title={item.title} />
               <div className={`relative ${aspect} overflow-hidden bg-rose/40`}>
                 <PreviewMedia

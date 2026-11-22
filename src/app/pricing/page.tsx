@@ -3,6 +3,7 @@ import Link from "next/link";
 import CheckoutButton from "@/components/CheckoutButton";
 import JsonLd from "@/components/JsonLd";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -118,9 +119,9 @@ export default function PricingPage() {
 
       {/* Plans */}
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-6 md:grid-cols-2 md:items-start xl:grid-cols-4">
+        <Reveal as="div" stagger className="grid gap-6 md:grid-cols-2 md:items-start xl:grid-cols-4">
           {/* Free */}
-          <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
+          <div className="lift flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
             <h2 className="font-script text-5xl text-denim">Free</h2>
             <p className="mt-6 font-serif text-6xl">$0</p>
             <p className="mt-2 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/60">
@@ -137,7 +138,7 @@ export default function PricingPage() {
           </div>
 
           {/* Monthly */}
-          <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
+          <div className="lift flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
             <h2 className="font-script text-5xl text-denim">Monthly</h2>
             <p className="mt-6 font-serif text-6xl">
               ${formatPrice(MONTHLY_PRICE)}
@@ -152,7 +153,7 @@ export default function PricingPage() {
           </div>
 
           {/* 3 months */}
-          <div className="flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
+          <div className="lift flex h-full flex-col border border-cocoa/25 bg-paper p-8 text-center text-cocoa">
             <h2 className="font-script text-5xl text-denim">3 Months</h2>
             <p className="mt-6 font-serif text-6xl">
               ${formatPrice(quarterlyPerMonth)}
@@ -169,7 +170,7 @@ export default function PricingPage() {
           </div>
 
           {/* Annual */}
-          <div className="linen relative flex h-full flex-col p-8 text-center text-cream md:-translate-y-4">
+          <div className="lift linen relative flex h-full flex-col p-8 text-center text-cream md:-translate-y-4">
             <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-periwinkle px-4 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
               Best value
             </span>
@@ -187,7 +188,7 @@ export default function PricingPage() {
             <FeatureList items={features} featured />
             <CheckoutButton planId="annual" planName="Annual" featured />
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <p className="-mt-6 mb-16 px-6 text-center font-serif text-lg text-cocoa/70">

@@ -5,6 +5,7 @@ import "./globals.css";
 import Link from "next/link";
 import ReferralBanner from "@/components/ReferralBanner";
 import CookieConsent, { CookieSettingsButton } from "@/components/CookieConsent";
+import { ViewTransition } from "react";
 import { FOOTER } from "@/lib/nav";
 import JsonLd from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
@@ -86,10 +87,15 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={SATOSHI_CSS} />
       </head>
-      <body className={`${dmSans.variable} antialiased`}>
+      {/* Browser extensions like Grammarly add their own attributes to <body>,
+          so React is told not to warn about those */}
+      <body className={`${dmSans.variable} antialiased`} suppressHydrationWarning>
         <JsonLd data={organizationData} />
         <Header />
-        <main>{children}</main>
+        {/* Pages fade into each other when you click around */}
+        <ViewTransition default="page">
+          <main>{children}</main>
+        </ViewTransition>
         <footer className="linen py-14">
           <div className="mx-auto max-w-6xl px-6">
             <Logo height={96} className="mx-auto text-periwinkle" />

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { SITE_CATEGORY } from "@/lib/site";
+import Reveal from "@/components/Reveal";
+import Folder from "@/components/Folder";
 
 // ✏️ HOMEPAGE TEXT
 // Tip: once your library grows, add real numbers here (e.g. "500+ videos").
@@ -16,21 +18,24 @@ const categories = [
 
 const features = [
   {
-    panel: "panel-denim",
+    color: "#4a2f27", // cocoa
+    image: "/folders/folder-cocoa.png",
     label: "The library",
     title: "Create",
     text: "Download organic stock videos and images that look like you filmed them yourself, then make Canva templates yours with your words, colors and logo.",
     href: "/videos",
   },
   {
-    panel: "panel-rose",
+    color: "#c79f9b", // rose
+    image: "/folders/folder-rose.png",
     label: "Creator Hub",
     title: "Plan",
     text: "Lay out your week in the content calendar, with social media holidays built in. Preview your grid and set your brand fonts and colors.",
     href: "/tools",
   },
   {
-    panel: "panel-mist",
+    color: "#8ea7bf", // dusty blue
+    image: "/folders/folder-blue.png",
     label: "Ary & services",
     title: "Grow",
     text: "Post consistently with captions and hooks from Ary, your content agent. Want it done for you? We also offer social media management, content creation, UGC and websites.",
@@ -72,12 +77,32 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section className="linen">
-        <div className="mx-auto max-w-5xl px-6 py-20 text-center md:py-28">
+        <div className="hero-in mx-auto max-w-5xl px-6 py-20 text-center md:py-28">
           <p className="text-[0.7rem] font-light uppercase tracking-[0.3em] text-periwinkle/80">
             {SITE_CATEGORY}
           </p>
           <h1 className="mx-auto mt-6 max-w-4xl font-script text-6xl text-periwinkle sm:text-7xl md:text-8xl">
-            Everything you need to show up on social media
+            Everything you need to show up on{" "}
+            <span className="relative inline-block whitespace-nowrap">
+              social media
+              {/* Hand-drawn underline that draws itself on load */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 300 24"
+                preserveAspectRatio="none"
+                className="squiggle pointer-events-none absolute -bottom-[0.12em] left-0 h-[0.32em] w-full overflow-visible"
+              >
+                <path
+                  d="M3 15 C 45 4, 75 21, 118 12 S 190 3, 228 13 S 282 18, 297 7"
+                  pathLength={1}
+                  fill="none"
+                  stroke="#dcbdb8"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+            </span>
           </h1>
           <p className="mx-auto mt-10 max-w-2xl font-serif text-xl leading-relaxed text-cream/80">
             Organic stock videos and images that don&apos;t feel like stock,
@@ -109,7 +134,7 @@ export default function Home() {
       </div>
 
       {/* From chaos to a plan: Create, Plan, Grow */}
-      <section className="mx-auto max-w-4xl px-6 py-20 text-center md:py-24">
+      <Reveal as="section" stagger className="mx-auto max-w-4xl px-6 py-20 text-center md:py-24">
         <h2 className="font-script text-5xl text-denim md:text-7xl">
           From content chaos to a clear plan
         </h2>
@@ -122,19 +147,21 @@ export default function Home() {
           Here&apos;s how each part of Socials Bestie helps you stay
           consistent, without the overwhelm.
         </p>
-      </section>
+      </Reveal>
 
       {/* Three feature blocks */}
-      <section className="mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-3">
+      <Reveal as="section" stagger className="mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-3">
         {features.map((f, i) => (
           <Link
             key={f.title}
             href={f.href}
-            className="group overflow-hidden rounded-[12px] border border-cocoa/15 bg-cream transition hover:-translate-y-1"
+            className="lift group overflow-hidden rounded-[12px] border border-cocoa/15 bg-cream"
           >
-            <div className={`${f.panel} flex h-52 flex-col items-center justify-center`}>
-              <p className="font-serif text-2xl text-cream/80">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-1 px-6 text-center font-script text-5xl text-cream">{f.title}</h3>
+            {/* Divider folder: each card's own tab sits in its place (1, 2, 3) */}
+            <div className="px-5 pt-5">
+              <Folder color={f.color} image={f.image} active={i as 0 | 1 | 2} tab={String(i + 1).padStart(2, "0")}>
+                <h3 className="px-6 text-center font-script text-5xl">{f.title}</h3>
+              </Folder>
             </div>
             <div className="p-6">
               <p className="text-[0.65rem] uppercase tracking-[0.3em] text-rose-deep">{f.label}</p>
@@ -145,17 +172,17 @@ export default function Home() {
             </div>
           </Link>
         ))}
-      </section>
+      </Reveal>
 
       {/* Free vs members */}
       <section className="mx-auto max-w-6xl px-6 py-20 md:py-24">
-        <p className="text-center text-[0.65rem] uppercase tracking-[0.3em] text-rose-deep">
+        <Reveal as="p" className="text-center text-[0.65rem] uppercase tracking-[0.3em] text-rose-deep">
           Start free, upgrade when you&apos;re ready
-        </p>
-        <h2 className="mt-3 text-center font-script text-5xl text-denim md:text-7xl">
+        </Reveal>
+        <Reveal as="h2" className="mt-3 text-center font-script text-5xl text-denim md:text-7xl">
           Everything you&apos;ll unlock
-        </h2>
-        <div className="mt-12 grid items-start gap-6 md:grid-cols-[2fr_3fr]">
+        </Reveal>
+        <Reveal as="div" stagger className="mt-12 grid items-start gap-6 md:grid-cols-[2fr_3fr]">
           <div className="flex h-full flex-col rounded-[12px] border border-cocoa/20 bg-paper p-8">
             <span className="w-fit bg-rose/50 px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
               Free with an account
@@ -189,19 +216,19 @@ export default function Home() {
               Join the club
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Value */}
       <section className="panel-denim">
         <div className="mx-auto max-w-6xl px-6 py-16 text-center md:py-20">
-          <h2 className="font-script text-5xl text-cream md:text-7xl">
+          <Reveal as="h2" className="font-script text-5xl text-cream md:text-7xl">
             Like having a content team behind you
-          </h2>
+          </Reveal>
           <p className="mt-4 font-serif text-xl text-cream/85">
             for less than 50 cents a day on the Annual plan
           </p>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal as="div" stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {value.map((v) => (
               <div key={v.stat} className="rounded-[12px] border border-cream/30 p-6">
                 <p className="text-lg text-dusty-blue">✓</p>
@@ -209,13 +236,13 @@ export default function Home() {
                 <p className="mt-2 font-serif text-lg text-cream/80">{v.text}</p>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Welcome offer */}
       <section className="mx-auto mt-20 max-w-5xl px-6">
-        <div className="panel-rose flex flex-col items-center gap-6 px-8 py-12 text-center md:flex-row md:justify-between md:text-left">
+        <Reveal as="div" className="panel-rose flex flex-col items-center gap-6 px-8 py-12 text-center md:flex-row md:justify-between md:text-left">
           <div>
             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-cocoa/80">Welcome offer</p>
             <h2 className="mt-2 font-script text-5xl text-cocoa md:text-6xl">15% off, bestie</h2>
@@ -227,13 +254,13 @@ export default function Home() {
           <Link href="/welcome-offer" className={`${pill} shrink-0 bg-cocoa text-cream hover:bg-cocoa-deep`}>
             Get my 15% off
           </Link>
-        </div>
+        </Reveal>
       </section>
 
       {/* Closing */}
       <div className="pt-16" />
       <section className="linen">
-        <div className="mx-auto max-w-3xl px-6 py-20 text-center md:py-24">
+        <Reveal as="div" stagger className="mx-auto max-w-3xl px-6 py-20 text-center md:py-24">
           <p className="text-[0.7rem] font-light uppercase tracking-[0.3em] text-periwinkle/80">
             Your new content routine starts here
           </p>
@@ -259,7 +286,7 @@ export default function Home() {
           <p className="mt-8 text-[0.65rem] uppercase tracking-[0.25em] text-cream/60">
             From $15 a month on the Annual plan · Cancel anytime
           </p>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

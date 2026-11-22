@@ -72,7 +72,7 @@ async function Boards() {
       ) : (
         <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
           {cards.map((c) => (
-            <Link key={c.id} href={`/boards/${c.id}`} className="group border border-cocoa/25 bg-paper p-2 transition hover:-translate-y-1">
+            <Link key={c.id} href={`/boards/${c.id}`} className="lift group border border-cocoa/25 bg-paper p-2">
               <div className="grid aspect-square grid-cols-2 gap-0.5 overflow-hidden bg-rose/30">
                 {[0, 1, 2, 3].map((i) =>
                   c.covers[i] ? (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ASSISTANT_SKILLS } from "@/lib/assistant";
 import AryAvatar from "@/components/AryAvatar";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Creator Hub",
@@ -138,12 +139,12 @@ export default function ToolsPage() {
         </p>
       </section>
 
-      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-16 pt-6 md:grid-cols-2">
+      <Reveal as="section" stagger className="mx-auto grid max-w-5xl gap-6 px-6 pb-16 pt-6 md:grid-cols-2">
         {tools.map((t) => (
           <Link
             key={t.href}
             href={t.href}
-            className="group flex flex-col items-center border border-cocoa/25 bg-paper p-8 text-center transition hover:-translate-y-1 hover:border-denim"
+            className="group flex flex-col items-center border border-cocoa/25 bg-paper p-8 text-center lift hover:border-denim"
           >
             <div className="flex h-36 items-center justify-center">{t.art}</div>
             <h2 className="font-script text-5xl text-denim">{t.name}</h2>
@@ -155,7 +156,7 @@ export default function ToolsPage() {
             </span>
           </Link>
         ))}
-      </section>
+      </Reveal>
 
       <section className="panel-denim">
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">

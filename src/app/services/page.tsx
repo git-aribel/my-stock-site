@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SERVICES } from "@/lib/services";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -27,11 +28,11 @@ export default function ServicesPage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-16 md:py-20">
-        <div className="grid gap-6 md:grid-cols-2">
+        <Reveal as="div" stagger className="grid gap-6 md:grid-cols-2">
           {SERVICES.map((s, i) => (
             <div
               key={s.slug}
-              className="flex flex-col border border-cocoa/25 bg-paper p-8 md:p-10"
+              className="lift flex flex-col border border-cocoa/25 bg-paper p-8 md:p-10"
             >
               <p className="font-serif text-4xl text-rose-deep">
                 {String(i + 1).padStart(2, "0")}
@@ -48,7 +49,7 @@ export default function ServicesPage() {
               </Link>
             </div>
           ))}
-        </div>
+        </Reveal>
       </section>
 
       <section className="panel-denim">

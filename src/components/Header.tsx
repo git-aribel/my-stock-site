@@ -13,7 +13,11 @@ const RIGHT = NAV.filter((item) => !isGroup(item)) as { href: string; label: str
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-cocoa/20 bg-cream/95 backdrop-blur">
+    <header
+      className="sticky top-0 z-50 border-b border-cocoa/20 bg-cream/95 backdrop-blur"
+      // Keeps the header still while pages fade between each other
+      style={{ viewTransitionName: "site-header" }}
+    >
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6">
         {/* Menu on the left, logo in the middle, account on the right */}
         <nav className="hidden items-center gap-6 lg:flex">

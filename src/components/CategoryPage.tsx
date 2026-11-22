@@ -86,7 +86,7 @@ async function Items({
               <Link
                 key={c.id}
                 href={`/collection/${c.slug}`}
-                className="group border border-cocoa/25 bg-paper p-2 transition hover:-translate-y-1"
+                className="lift group border border-cocoa/25 bg-paper p-2"
               >
                 <div className={`${aspect} overflow-hidden bg-rose/40`}>
                   {c.coverUrl && (
