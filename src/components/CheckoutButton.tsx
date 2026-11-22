@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { track } from "@/lib/analytics";
 
 type Props = {
   planId: string;
@@ -38,6 +39,7 @@ export default function CheckoutButton({ planId, planName, featured }: Props) {
         return;
       }
 
+      track("begin_checkout", { plan: planId });
       window.location.href = data.url;
     } catch {
       setError("Something went wrong. Please try again.");

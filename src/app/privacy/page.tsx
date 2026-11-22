@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="21 November 2026"
+      updated="22 November 2026"
       intro="This policy explains what personal data Socials Bestie collects when you use our website and buy a membership, why we collect it, who sees it, and what rights you have."
       sections={[
         {
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
         {
           heading: "4. Who we share it with",
           body: [
-            "We use trusted providers who process data on our behalf: Supabase (accounts and database), Stripe (payments), Cloudflare (file storage), Vercel (website hosting), Fontshare by Indian Type Foundry (serves the font used for headings, which means your browser connects to their servers and they receive your IP address), and [YOUR EMAIL SERVICE] (sending emails). They may only use your data to provide their service to us.",
+            "We use trusted providers who process data on our behalf: Supabase (accounts and database), Stripe (payments), Cloudflare (file storage), Vercel (website hosting), Fontshare by Indian Type Foundry (serves the font used for headings, which means your browser connects to their servers and they receive your IP address), Google Analytics (website statistics, only if you accept analytics cookies), and [YOUR EMAIL SERVICE] (sending emails). They may only use your data to provide their service to us.",
             "We may also share data when the law requires it, or to protect our rights or prevent fraud. We do not sell your personal data.",
           ],
         },
@@ -63,7 +63,8 @@ export default function PrivacyPage() {
             "If you arrive through a partner's referral link, we ask your permission before saving a referral cookie (called sb_ref) for 60 days. It records which partner referred you, so they can receive credit if you buy a membership. If you decline, we do not save it.",
             "If you sign up for the welcome offer, we save a cookie (called sb_offer) for 90 days so your discount is applied automatically when you join. It is needed to give you the discount you asked for.",
             "Some tools remember small preferences on your device, such as whether you prefer the week or month calendar. These stay in your browser and are not shared with us.",
-            "We do not use advertising or tracking cookies.",
+            "With your permission, we use Google Analytics to understand how visitors find and use the site, for example which pages are popular and whether people arrive from Instagram or Google. It saves cookies called _ga and _ga_<ID> for up to 13 months. Google Analytics only loads after you click Accept on our cookie banner. If you decline, no analytics cookies are saved. You can change your choice at any time with the Cookie settings link at the bottom of every page. Your answer is remembered in a cookie called sb_consent for 6 months.",
+            "We do not use advertising cookies, and we do not sell your data.",
           ],
         },
         {

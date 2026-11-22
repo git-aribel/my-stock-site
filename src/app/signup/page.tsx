@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { safeNext } from "@/lib/affiliates";
+import { track } from "@/lib/analytics";
 
 function SignupForm() {
   const router = useRouter();
@@ -36,6 +37,8 @@ function SignupForm() {
       setError(error.message);
       return;
     }
+
+    track("sign_up", { method: "email" });
 
     if (data.session) {
       router.push(next ?? "/pricing");

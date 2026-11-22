@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import "./globals.css";
 import Link from "next/link";
 import ReferralBanner from "@/components/ReferralBanner";
+import CookieConsent, { CookieSettingsButton } from "@/components/CookieConsent";
 import { FOOTER } from "@/lib/nav";
 import JsonLd from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
@@ -119,9 +120,13 @@ export default function RootLayout({
             <p className="mt-12 text-center text-[0.65rem] uppercase tracking-[0.3em] text-cream/50">
               © 2026 Socials Bestie. All rights reserved.
             </p>
+            <p className="mt-3 text-center">
+              <CookieSettingsButton className="text-[0.65rem] uppercase tracking-[0.3em] text-cream/50 underline-offset-4 hover:text-periwinkle hover:underline" />
+            </p>
           </div>
         </footer>
         <ReferralBanner />
+        <CookieConsent />
       </body>
     </html>
   );

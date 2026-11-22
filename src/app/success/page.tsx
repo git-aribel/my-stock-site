@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import TrackEvent from "@/components/TrackEvent";
 
 export const metadata: Metadata = {
   title: "Welcome to the club",
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 export default function SuccessPage() {
   return (
     <div>
+      <TrackEvent event="purchase" once="sb_tracked_purchase" />
       <section className="linen">
         <div className="mx-auto max-w-3xl px-6 py-20 text-center">
           <h1 className="font-script text-7xl text-periwinkle md:text-9xl">
