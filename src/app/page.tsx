@@ -2,6 +2,9 @@ import Link from "next/link";
 import { SITE_CATEGORY } from "@/lib/site";
 import Reveal from "@/components/Reveal";
 import Folder from "@/components/Folder";
+import ReviewsSection from "@/components/ReviewsSection";
+import WelcomeLetter from "@/components/WelcomeLetter";
+import { OFFER_PERCENT } from "@/lib/welcomeOffer";
 
 // ✏️ HOMEPAGE TEXT
 // Tip: once your library grows, add real numbers here (e.g. "500+ videos").
@@ -240,21 +243,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Welcome offer */}
-      <section className="mx-auto mt-20 max-w-5xl px-6">
-        <Reveal as="div" className="panel-rose flex flex-col items-center gap-6 px-8 py-12 text-center md:flex-row md:justify-between md:text-left">
-          <div>
-            <p className="text-[0.65rem] uppercase tracking-[0.3em] text-cocoa/80">Welcome offer</p>
-            <h2 className="mt-2 font-script text-5xl text-cocoa md:text-6xl">15% off, bestie</h2>
-            <p className="mt-3 max-w-md font-serif text-xl text-cocoa/85">
-              Join our email list and get 15% off your first membership payment,
-              on any plan.
-            </p>
-          </div>
-          <Link href="/welcome-offer" className={`${pill} shrink-0 bg-cocoa text-cream hover:bg-cocoa-deep`}>
-            Get my 15% off
-          </Link>
-        </Reveal>
+      {/* Reviews (or an invitation to leave the first one) */}
+      <ReviewsSection />
+
+      {/* Welcome offer: a letter that arrives like a notification */}
+      <section className="mx-auto max-w-5xl px-6 pb-4">
+        <WelcomeLetter percent={OFFER_PERCENT} />
       </section>
 
       {/* Closing */}

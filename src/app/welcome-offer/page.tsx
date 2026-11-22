@@ -11,6 +11,7 @@ import {
   isCodeUsable,
 } from "@/lib/welcomeOffer";
 import { CodeBox, WelcomeOfferForm } from "@/components/WelcomeOffer";
+import GlitterText from "@/components/GlitterText";
 
 export const metadata: Metadata = {
   title: `${OFFER_PERCENT}% Off Your First Payment`,
@@ -98,7 +99,7 @@ export default function WelcomeOfferPage() {
             Welcome offer
           </p>
           <h1 className="mt-4 font-script text-7xl text-periwinkle md:text-9xl">
-            {OFFER_PERCENT}% off, bestie
+            <GlitterText>{OFFER_PERCENT}% off, bestie</GlitterText>
           </h1>
           <p className="mx-auto mt-6 max-w-xl font-serif text-xl leading-relaxed text-cream/80">
             Join our email list for ideas, new content and offers, and get{" "}

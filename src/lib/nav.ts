@@ -62,6 +62,7 @@ export const FOOTER: NavGroup[] = [
     label: "Company",
     links: [
       { href: "/affiliates", label: "Affiliates" },
+      { href: "/reviews", label: "Reviews" },
       { href: "/faq", label: "FAQ" },
       { href: "/contact", label: "Contact" },
     ],

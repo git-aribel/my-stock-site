@@ -185,6 +185,12 @@ export default function AdminManager() {
         </p>
         <div className="flex gap-3">
           <Link
+            href="/admin/reviews"
+            className="border border-cocoa px-5 py-2.5 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-rose/40"
+          >
+            Reviews
+          </Link>
+          <Link
             href="/admin/collections"
             className="border border-cocoa px-5 py-2.5 text-[0.65rem] uppercase tracking-[0.25em] text-cocoa transition hover:bg-rose/40"
           >

@@ -20,6 +20,7 @@ const PAGES: { path: string; priority: number; changeFrequency: "daily" | "weekl
   { path: "/services", priority: 0.8, changeFrequency: "monthly" },
   ...SERVICES.map((s) => ({ path: `/services/${s.slug}`, priority: 0.7, changeFrequency: "monthly" as const })),
   { path: "/welcome-offer", priority: 0.6, changeFrequency: "monthly" },
+  { path: "/reviews", priority: 0.6, changeFrequency: "weekly" },
   { path: "/affiliates", priority: 0.5, changeFrequency: "monthly" },
   { path: "/faq", priority: 0.5, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.4, changeFrequency: "yearly" },

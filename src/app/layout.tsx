@@ -6,6 +6,7 @@ import Link from "next/link";
 import ReferralBanner from "@/components/ReferralBanner";
 import CookieConsent, { CookieSettingsButton } from "@/components/CookieConsent";
 import { ViewTransition } from "react";
+import IgnoreTransitionErrors from "@/components/IgnoreTransitionErrors";
 import { FOOTER } from "@/lib/nav";
 import JsonLd from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
@@ -133,6 +134,7 @@ export default function RootLayout({
         </footer>
         <ReferralBanner />
         <CookieConsent />
+        <IgnoreTransitionErrors />
       </body>
     </html>
   );
