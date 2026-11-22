@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Creator Hub",
   description:
-    "Free social media tools for small businesses and creators: a content calendar with social media holidays, an Instagram & TikTok grid planner, a font pairing generator, a color palette generator and Ary 1.0, your content agent.",
+    "Free social media tools for small businesses and creators: a content calendar with social media holidays, to-do lists for creators, an Instagram & TikTok grid planner, a font pairing generator, a color palette generator and Ary 1.0, your content agent.",
 };
 
 const tools = [
@@ -23,6 +23,21 @@ const tools = [
             className="aspect-square"
             style={{ background: [2, 5, 9, 13, 16, 20, 24].includes(i) ? ["#c79f9b", "#46608a", "#4a2f27", "#8ea7bf"][i % 4] : "#f6f0e6" }}
           />
+        ))}
+      </div>
+    ),
+  },
+  {
+    href: "/tools/to-do-lists",
+    name: "To-do lists",
+    text: "Ready-made checklists for creators and brands, or your own lists. Daily and weekly routines reset themselves.",
+    art: (
+      <div className="w-28 space-y-1.5">
+        {[true, true, false].map((done, i) => (
+          <div key={i} className="flex items-center gap-1.5">
+            <span className={`h-3.5 w-3.5 shrink-0 border ${done ? "border-denim bg-denim" : "border-cocoa/40 bg-cream"}`} />
+            <span className={`h-1.5 flex-1 ${done ? "bg-rose" : "bg-dusty-blue"}`} style={{ width: `${[80, 60, 70][i]}%` }} />
+          </div>
         ))}
       </div>
     ),
@@ -144,7 +159,7 @@ export default function ToolsPage() {
           <Link
             key={t.href}
             href={t.href}
-            className="group flex flex-col items-center border border-cocoa/25 bg-paper p-8 text-center lift hover:border-denim"
+            className="group flex flex-col items-center border border-cocoa/25 bg-paper p-8 text-center lift hover:border-denim md:last:odd:col-span-2 md:last:odd:mx-auto md:last:odd:w-[calc(50%-0.75rem)]"
           >
             <div className="flex h-36 items-center justify-center">{t.art}</div>
             <h2 className="font-script text-5xl text-denim">{t.name}</h2>
@@ -162,7 +177,7 @@ export default function ToolsPage() {
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">
           <h2 className="font-script text-6xl text-cream">Free account, free tools</h2>
           <p className="mx-auto mt-4 max-w-xl font-serif text-xl text-cream/85">
-            Sign up for free to use the calendar, planner, fonts and palettes. Join the
+            Sign up for free to use the calendar, to-do lists, planner, fonts and palettes. Join the
             club to unlock Ary 1.0, your content agent, and unlimited downloads.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">

@@ -479,3 +479,67 @@ select {
     animation-delay: 0s !important;
   }
 }
+
+/* ============================================================
+   NOTEBOOK (to-do lists): a real photo of a stitched blue notebook,
+   cut into 3 strips (top with the pen, a middle that repeats as the
+   list grows, bottom with the gold clip). Photo is 736px wide.
+   ============================================================ */
+.notebook {
+  /* never shorter than the top + bottom strips (380 + 460 of 736) */
+  aspect-ratio: 736 / 840;
+}
+.notebook-paper {
+  /* the photo's white background melts into the cream page */
+  mix-blend-mode: multiply;
+}
+.notebook-top,
+.notebook-mid,
+.notebook-bottom {
+  background-size: 100% auto;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+.notebook-top {
+  aspect-ratio: 736 / 380;
+  background-image: url("/notebook/top.webp?v=4");
+}
+.notebook-mid {
+  /* overlap the strips a little so no hairline gap shows between them */
+  margin-block: -2px;
+  background-image: url("/notebook/mid.webp?v=4");
+  background-repeat: repeat-y;
+}
+.notebook-bottom {
+  aspect-ratio: 736 / 460;
+  background-image: url("/notebook/bottom.webp?v=4");
+  background-position: right bottom;
+}
+/* Writing area = the right-hand page (padding % follows the width) */
+.notebook-page {
+  padding: 26% 15% 15% 24.5%;
+}
+/* On phones, crop off most of the left page so there's room to write */
+@media (max-width: 639px) {
+  .notebook-top,
+  .notebook-mid,
+  .notebook-bottom {
+    background-size: 118% auto;
+  }
+  .notebook-top {
+    aspect-ratio: 736 / 448;
+  }
+  .notebook-bottom {
+    aspect-ratio: 736 / 543;
+  }
+  .notebook {
+    aspect-ratio: 736 / 990;
+  }
+  .notebook-page {
+    padding: 31% 23% 17% 9%;
+  }
+}
+/* Pen ink */
+.ink {
+  color: #1f2c4d;
+}

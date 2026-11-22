@@ -13,6 +13,7 @@ const PAGES: { path: string; priority: number; changeFrequency: "daily" | "weekl
   { path: "/stickers", priority: 0.7, changeFrequency: "weekly" },
   { path: "/tools", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/content-calendar", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/to-do-lists", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/grid-planner", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/font-pairing", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/color-palette", priority: 0.7, changeFrequency: "monthly" },

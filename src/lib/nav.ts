@@ -22,6 +22,7 @@ export const HUB: NavGroup = {
   links: [
     { href: "/tools/ary", label: "Ary 1.0", badge: "Members" },
     { href: "/tools/content-calendar", label: "Content calendar" },
+    { href: "/tools/to-do-lists", label: "To-do lists" },
     { href: "/tools/grid-planner", label: "Grid planner" },
     { href: "/tools/font-pairing", label: "Font pairings" },
     { href: "/tools/color-palette", label: "Color palettes" },
