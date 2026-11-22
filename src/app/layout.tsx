@@ -7,6 +7,7 @@ import ReferralBanner from "@/components/ReferralBanner";
 import { FOOTER } from "@/lib/nav";
 import JsonLd from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import Logo from "@/components/Logo";
 
 // Body text. Served from this site (no outside requests).
 const dmSans = DM_Sans({
@@ -90,7 +91,7 @@ export default function RootLayout({
         <main>{children}</main>
         <footer className="linen py-14">
           <div className="mx-auto max-w-6xl px-6">
-            <p className="text-center font-script text-5xl text-periwinkle">Socials Bestie</p>
+            <Logo height={96} className="mx-auto text-periwinkle" />
             <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
               {FOOTER.map((group) => (
                 <div key={group.label}>

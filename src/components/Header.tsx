@@ -2,6 +2,7 @@ import Link from "next/link";
 import AuthButtons from "@/components/AuthButtons";
 import MobileMenu from "@/components/MobileMenu";
 import { NAV, isGroup, type NavItem } from "@/lib/nav";
+import Logo from "@/components/Logo";
 
 const topLink =
   "flex items-center gap-1.5 whitespace-nowrap py-2 text-[0.7rem] font-light uppercase tracking-[0.18em] text-cocoa hover:text-denim";
@@ -67,8 +68,8 @@ export default function Header() {
         </nav>
         <span className="lg:hidden" />
 
-        <Link href="/" className="shrink-0 font-script text-4xl text-denim">
-          Socials Bestie
+        <Link href="/" className="-my-2 shrink-0 text-denim">
+          <Logo height={60} />
         </Link>
 
         <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-5">
