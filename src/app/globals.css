@@ -788,3 +788,12 @@ select {
 @media (prefers-reduced-motion: reduce) {
   .slide-shine { animation: none; }
 }
+
+/* Light mode: the footer is cream, with denim headings and logo and dark
+   links (in dark mode it stays brown) */
+:root:not([data-theme="dark"]) footer.linen {
+  --cocoa: #f1e6d8;
+  --cream: #2a1b16;
+  --periwinkle: #46608a;
+  --denim: #b9c8f2;
+}
