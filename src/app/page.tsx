@@ -86,26 +86,7 @@ export default function Home() {
           </p>
           <h1 className="mx-auto mt-6 max-w-4xl font-script text-6xl text-periwinkle sm:text-7xl md:text-8xl">
             Everything you need to show up on{" "}
-            <span className="relative inline-block whitespace-nowrap">
-              social media
-              {/* Hand-drawn underline that draws itself on load */}
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 300 24"
-                preserveAspectRatio="none"
-                className="squiggle pointer-events-none absolute -bottom-[0.12em] left-0 h-[0.32em] w-full overflow-visible"
-              >
-                <path
-                  d="M3 15 C 45 4, 75 21, 118 12 S 190 3, 228 13 S 282 18, 297 7"
-                  pathLength={1}
-                  fill="none"
-                  stroke="#dcbdb8"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-            </span>
+            <span className="whitespace-nowrap">social media</span>
           </h1>
           <p className="mx-auto mt-10 max-w-2xl font-serif text-xl leading-relaxed text-cream/80">
             Organic stock videos and images that don&apos;t feel like stock,

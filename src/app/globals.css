@@ -397,16 +397,6 @@ select {
   to { opacity: 1; translate: 0 0; }
 }
 
-/* Hand-drawn underline that draws itself */
-.squiggle path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: squiggle-draw 1.1s cubic-bezier(0.6, 0, 0.3, 1) 0.7s forwards;
-}
-@keyframes squiggle-draw {
-  to { stroke-dashoffset: 0; }
-}
-
 /* Page changes: the page softly fades and rises while the header stays put */
 ::view-transition {
   pointer-events: none;
@@ -438,10 +428,8 @@ select {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-in > *,
-  .squiggle path {
+  .hero-in > * {
     animation: none;
-    stroke-dashoffset: 0;
   }
   .lift:hover {
     transform: none;
@@ -542,4 +530,70 @@ select {
 /* Pen ink */
 .ink {
   color: #1f2c4d;
+}
+
+/* ============================================================
+   LACE PAPER (content calendar): a lace-edged paper card cut from a
+   photo into corners + repeating edges, so it fits any size.
+   --lace scales the lace (1 = original photo size).
+   ============================================================ */
+.lace {
+  --lace: 1;
+  position: relative;
+  isolation: isolate;
+  /* keep the content inside the lace */
+  padding: calc(70px * var(--lace)) calc(97px * var(--lace)) calc(65px * var(--lace)) calc(71px * var(--lace));
+}
+@media (max-width: 767px) {
+  .lace {
+    --lace: 0.5;
+  }
+}
+.lace > .lace-piece {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.lace-fill {
+  /* tucked 10px under the lace pieces, whose inner edges fade out */
+  top: calc(60px * var(--lace));
+  bottom: calc(55px * var(--lace));
+  left: calc(61px * var(--lace));
+  right: calc(87px * var(--lace));
+  background-color: #ece7de;
+  /* the photo's own paper texture, as a seamless tile */
+  background-image: url("/lace/paper.webp") !important;
+  background-size: calc(104px * var(--lace)) !important;
+  background-repeat: repeat !important;
+}
+.lace-tl { top: 0; left: 0; width: calc(71px * var(--lace)); height: calc(155px * var(--lace)); background-image: url("/lace/tl.webp?v=3"); }
+.lace-tr { top: 0; right: 0; width: calc(104px * var(--lace)); height: calc(155px * var(--lace)); background-image: url("/lace/tr.webp?v=3"); }
+.lace-bl { bottom: 0; left: 0; width: calc(71px * var(--lace)); height: calc(126px * var(--lace)); background-image: url("/lace/bl.webp?v=3"); }
+.lace-br { bottom: 0; right: 0; width: calc(104px * var(--lace)); height: calc(126px * var(--lace)); background-image: url("/lace/br.webp?v=3"); }
+/* Edges repeat a whole number of scallops ("round") so they always line up */
+.lace > .lace-top {
+  top: 0; left: calc(71px * var(--lace) - 1px); right: calc(104px * var(--lace) - 1px); height: calc(70px * var(--lace));
+  background-image: url("/lace/top.webp?v=3");
+  background-size: calc(69px * var(--lace)) 100%;
+  background-repeat: round no-repeat;
+}
+.lace > .lace-bottom {
+  bottom: 0; left: calc(71px * var(--lace) - 1px); right: calc(104px * var(--lace) - 1px); height: calc(65px * var(--lace));
+  background-image: url("/lace/bottom.webp?v=3");
+  background-size: calc(69px * var(--lace)) 100%;
+  background-repeat: round no-repeat;
+}
+.lace > .lace-left {
+  left: 0; top: calc(155px * var(--lace) - 1px); bottom: calc(126px * var(--lace) - 1px); width: calc(71px * var(--lace));
+  background-image: url("/lace/left.webp?v=3");
+  background-size: 100% calc(73px * var(--lace));
+  background-repeat: no-repeat round;
+}
+.lace > .lace-right {
+  right: 0; top: calc(155px * var(--lace) - 1px); bottom: calc(126px * var(--lace) - 1px); width: calc(97px * var(--lace));
+  background-image: url("/lace/right.webp?v=3");
+  background-size: 100% calc(73px * var(--lace));
+  background-repeat: no-repeat round;
 }

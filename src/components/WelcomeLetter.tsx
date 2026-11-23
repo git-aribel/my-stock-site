@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Parisienne } from "next/font/google";
+import { Caveat, Parisienne } from "next/font/google";
 
 // Elegant handwriting for the letter
 const hand = Parisienne({ subsets: ["latin"], weight: "400" });
+// Easy-to-read handwriting for the message itself
+const note = Caveat({ subsets: ["latin"], weight: ["500", "600"] });
 
 // The lace envelope photo comes in two versions (all images 707 x 795, in
 // /public/letter):
@@ -52,11 +54,11 @@ export default function WelcomeLetter({ percent }: { percent: number }) {
             }`}
           >
             <p className="text-[clamp(1.45rem,6vw,1.95rem)] leading-none">Dear bestie,</p>
-            <p className="mt-2 text-[clamp(1rem,4vw,1.25rem)] leading-snug text-ink/85">
-              Here&apos;s <span className="text-[#9a6a64]">{percent}% off</span> your first membership, on any plan.
+            <p className={`mt-2 text-[clamp(1.2rem,4.8vw,1.5rem)] font-medium leading-tight text-ink/90 ${note.className}`}>
+              Here&apos;s <span className="font-semibold text-[#9a6a64]">{percent}% off</span> your first membership, on any plan.
               Welcome to the club!
             </p>
-            <p className="mt-1.5 text-[clamp(1rem,4vw,1.25rem)] leading-snug text-ink/85">Love, your Socials Bestie ♡</p>
+            <p className={`mt-1.5 text-[clamp(1.2rem,4.8vw,1.5rem)] font-medium leading-tight text-ink/90 ${note.className}`}>Love, your Socials Bestie ♡</p>
             <Link
               href="/welcome-offer"
               tabIndex={isOpen ? 0 : -1}

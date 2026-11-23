@@ -4,6 +4,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { holidaysBetween, type Holiday } from "@/lib/holidays";
+import { Parisienne } from "next/font/google";
+
+// The month's name, in an elegant script like a printed calendar
+const script = Parisienne({ subsets: ["latin"], weight: "400" });
 
 // ✏️ Options people can choose for each post
 const PLATFORMS = [
@@ -37,6 +41,8 @@ type Post = {
 type Draft = Omit<Post, "id"> & { id?: string; holiday?: Holiday };
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const arrowBtn =
+  "flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-serif text-3xl leading-none text-cocoa/70 transition hover:bg-cocoa/10 hover:text-cocoa";
 const label = "block text-[0.65rem] uppercase tracking-[0.25em] text-cocoa/70";
 const input =
   "mt-2 w-full border border-cocoa/30 bg-cream px-3 py-2 font-serif text-lg text-cocoa outline-none focus:border-denim";
@@ -275,10 +281,6 @@ export default function ContentCalendar() {
     URL.revokeObjectURL(a.href);
   }
 
-  const monthName =
-    view === "week"
-      ? weekTitle(days[0], days[6])
-      : new Date(year, month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
   const todayKey = ymd(today);
   const counts = STATUSES.map((s) => ({
     ...s,
@@ -305,15 +307,6 @@ export default function ContentCalendar() {
               </button>
             ))}
           </div>
-          <button type="button" aria-label={`Previous ${view}`} className={btn} onClick={() => shift(-1)}>
-            ←
-          </button>
-          <h2 className="min-w-[9.5rem] text-center font-script text-3xl text-denim sm:min-w-[11rem] md:text-5xl">
-            {monthName}
-          </h2>
-          <button type="button" aria-label={`Next ${view}`} className={btn} onClick={() => shift(1)}>
-            →
-          </button>
           <button
             type="button"
             className={btn}
@@ -383,16 +376,43 @@ export default function ContentCalendar() {
 
       {error && <p className="font-serif text-lg text-red-800">{error}</p>}
 
+      {/* The calendar itself: lace-edged paper on dark brown */}
+      <div className="-mx-4 rounded-[12px] bg-cocoa-deep px-1.5 py-4 sm:mx-0 sm:p-6 md:p-10">
+      <LacePaper>
+        <div className="px-2 pb-2 pt-3 text-center sm:px-6 md:pt-6">
+          <div className="flex items-center justify-center gap-1 sm:gap-6">
+            <button type="button" aria-label={`Previous ${view}`} onClick={() => shift(-1)} className={arrowBtn}>
+              ‹
+            </button>
+            <h2
+              className={`min-w-0 leading-none text-cocoa-deep ${script.className} ${
+                view === "week" ? "text-3xl sm:text-6xl md:text-7xl" : "text-[2.6rem] sm:text-7xl md:text-[7rem]"
+              }`}
+            >
+              {view === "week" ? weekTitle(days[0], days[6]) : new Date(year, month, 1).toLocaleDateString("en-GB", { month: "long" })}
+            </h2>
+            <button type="button" aria-label={`Next ${view}`} onClick={() => shift(1)} className={arrowBtn}>
+              ›
+            </button>
+          </div>
+          <p className="mt-2 text-xs tracking-[0.12em] text-cocoa-deep sm:mt-3 sm:text-base">
+            {view === "week" ? "WEEKLY PLAN" : `${year} CALENDAR`}
+          </p>
+        </div>
+        <div className="px-1 pb-2 pt-5 sm:px-4 md:pt-8">
+
       {view === "month" ? (
         <>
       {/* Month grid (tablets and up) */}
       <div className={`hidden md:block ${loading ? "opacity-60" : ""}`}>
-        <div className="grid grid-cols-7 border-l border-t border-cocoa/20">
+        <div className="grid grid-cols-7">
           {WEEKDAYS.map((d) => (
-            <div key={d} className="border-b border-r border-cocoa/20 bg-paper py-2 text-center text-[0.6rem] uppercase tracking-[0.25em] text-cocoa/70">
+            <div key={d} className="pb-2.5 pl-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-cocoa-deep">
               {d}
             </div>
           ))}
+        </div>
+        <div className="grid grid-cols-7 border-l border-t border-cocoa/35">
           {days.map((d) => {
             const key = ymd(d);
             const inMonth = d.getMonth() === month;
@@ -406,14 +426,12 @@ export default function ContentCalendar() {
                   if (dragId) moveTo(dragId, key);
                   setDragId(null);
                 }}
-                className={`group relative min-h-[120px] border-b border-r border-cocoa/20 p-1.5 ${
-                  inMonth ? "bg-cream" : "bg-paper/60"
-                }`}
+                className="group relative min-h-[120px] border-b border-r border-cocoa/35 p-1.5"
               >
                 <div className="flex items-center justify-between">
                   <span
-                    className={`flex h-7 w-7 items-center justify-center font-serif text-base ${
-                      key === todayKey ? "rounded-full bg-denim text-cream" : inMonth ? "text-ink" : "text-cocoa/40"
+                    className={`flex h-6 w-6 items-center justify-center font-sans text-xs font-semibold ${
+                      key === todayKey ? "rounded-full bg-cocoa text-cream" : inMonth ? "text-cocoa-deep" : "text-cocoa/30"
                     }`}
                   >
                     {d.getDate()}
@@ -439,7 +457,7 @@ export default function ContentCalendar() {
             );
           })}
         </div>
-        <p className="mt-2 font-serif text-base text-cocoa/60">
+        <p className="mt-2 text-center font-serif text-sm text-cocoa/55">
           Tip: drag a post to another day to move it.
         </p>
       </div>
@@ -454,9 +472,9 @@ export default function ContentCalendar() {
             const dayHolidays = holidaysByDay.get(key) ?? [];
             if (dayPosts.length === 0 && dayHolidays.length === 0 && key !== todayKey) return null;
             return (
-              <div key={key} className="border border-cocoa/20 bg-paper p-3">
+              <div key={key} className="border border-cocoa/30 bg-white/35 p-3">
                 <div className="flex items-center justify-between">
-                  <p className={`font-serif text-lg ${key === todayKey ? "text-denim" : "text-ink"}`}>
+                  <p className={`font-serif text-lg ${key === todayKey ? "font-semibold text-cocoa" : "text-ink"}`}>
                     {d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}
                     {key === todayKey && " · Today"}
                   </p>
@@ -486,7 +504,7 @@ export default function ContentCalendar() {
         <>
       {/* Week view (tablets and up) */}
       <div className={`hidden md:block ${loading ? "opacity-60" : ""}`}>
-        <div className="grid grid-cols-7 border-l border-t border-cocoa/20">
+        <div className="grid grid-cols-7 border-l border-t border-cocoa/35">
           {days.map((d) => {
             const key = ymd(d);
             const dayPosts = byDay.get(key) ?? [];
@@ -500,13 +518,13 @@ export default function ContentCalendar() {
                   if (dragId) moveTo(dragId, key);
                   setDragId(null);
                 }}
-                className="flex min-h-[440px] flex-col border-b border-r border-cocoa/20 bg-cream"
+                className="flex min-h-[440px] flex-col border-b border-r border-cocoa/35"
               >
-                <div className={`border-b border-cocoa/20 px-2 py-2 text-center ${isToday ? "bg-denim text-cream" : "bg-paper"}`}>
-                  <p className={`text-[0.6rem] uppercase tracking-[0.25em] ${isToday ? "text-cream/80" : "text-cocoa/70"}`}>
+                <div className={`border-b border-cocoa/35 px-2 py-2 text-center ${isToday ? "bg-cocoa text-cream" : "text-cocoa-deep"}`}>
+                  <p className={`text-[0.6rem] font-semibold uppercase tracking-[0.1em] ${isToday ? "text-cream/80" : ""}`}>
                     {WEEKDAYS[(d.getDay() + 6) % 7]}
                   </p>
-                  <p className="font-serif text-2xl leading-tight">{d.getDate()}</p>
+                  <p className="font-sans text-xl font-semibold leading-tight">{d.getDate()}</p>
                 </div>
                 <div className="flex-1 space-y-2 p-1.5">
                   {(holidaysByDay.get(key) ?? []).map((h) => (
@@ -528,7 +546,7 @@ export default function ContentCalendar() {
             );
           })}
         </div>
-        <p className="mt-2 font-serif text-base text-cocoa/60">
+        <p className="mt-2 text-center font-serif text-sm text-cocoa/55">
           Tip: drag a post to another day to move it.
         </p>
       </div>
@@ -539,9 +557,9 @@ export default function ContentCalendar() {
           const key = ymd(d);
           const dayPosts = byDay.get(key) ?? [];
           return (
-            <div key={key} className="border border-cocoa/20 bg-paper p-3">
+            <div key={key} className="border border-cocoa/30 bg-white/35 p-3">
               <div className="flex items-center justify-between">
-                <p className={`font-serif text-lg ${key === todayKey ? "text-denim" : "text-ink"}`}>
+                <p className={`font-serif text-lg ${key === todayKey ? "font-semibold text-cocoa" : "text-ink"}`}>
                   {d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}
                   {key === todayKey && " · Today"}
                 </p>
@@ -571,6 +589,13 @@ export default function ContentCalendar() {
       </div>
         </>
       )}
+
+        </div>
+        <p className="px-2 pb-3 pt-4 text-center text-[0.6rem] tracking-[0.1em] text-cocoa-deep sm:pb-5 sm:pt-6 sm:text-sm">
+          {new Date(year, month, 1).toLocaleDateString("en-GB", { month: "long" }).toUpperCase()}, LET&apos;S MAKE IT A GOOD ONE.
+        </p>
+      </LacePaper>
+      </div>
 
       {editing && (
         <PostEditor
@@ -860,6 +885,18 @@ function PostEditor({
           )}
         </div>
       </form>
+    </div>
+  );
+}
+
+// Lace-edged paper (pieces of a real photo, see .lace in globals.css)
+function LacePaper({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="lace">
+      {["fill", "tl", "tr", "bl", "br", "top", "bottom", "left", "right"].map((p) => (
+        <span key={p} aria-hidden="true" className={`lace-piece lace-${p}`} />
+      ))}
+      {children}
     </div>
   );
 }
