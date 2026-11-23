@@ -4,6 +4,7 @@ import Reveal from "@/components/Reveal";
 import Folder from "@/components/Folder";
 import ReviewsSection from "@/components/ReviewsSection";
 import WelcomeLetter from "@/components/WelcomeLetter";
+import HubShowcase from "@/components/HubShowcase";
 import { OFFER_PERCENT } from "@/lib/welcomeOffer";
 
 // ✏️ HOMEPAGE TEXT
@@ -157,6 +158,19 @@ export default function Home() {
           </Link>
         ))}
       </Reveal>
+
+      {/* Peek inside the free tools, filled with example content */}
+      <section className="mx-auto max-w-6xl px-6 pt-20 md:pt-24">
+        <Reveal as="p" className="text-center text-[0.65rem] uppercase tracking-[0.3em] text-rose-deep">
+          Free with an account
+        </Reveal>
+        <Reveal as="h2" className="mt-3 text-center font-script text-5xl text-denim md:text-7xl">
+          Take a peek inside
+        </Reveal>
+        <Reveal as="div" className="mt-10">
+          <HubShowcase />
+        </Reveal>
+      </section>
 
       {/* Free vs members */}
       <section className="mx-auto max-w-6xl px-6 py-20 md:py-24">

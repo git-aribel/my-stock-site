@@ -1,5 +1,5 @@
 // ✏️ ARY'S MASCOT
-// This is a drawn placeholder. To use your own mascot, add the image to the
+// A black cat peeking over a laptop (drawn below). To use your own mascot, add the image to the
 // /public folder (e.g. public/ary.png) and set MASCOT_SRC to "/ary.png".
 const MASCOT_SRC: string | null = null;
 
@@ -34,28 +34,38 @@ export default function AryAvatar({
     >
       {/* Background */}
       <circle cx="32" cy="32" r="32" fill="#b9c8f2" />
-      {/* Hair bun */}
-      <circle cx="32" cy="12" r="7" fill="#4a2f27" />
-      {/* Neck and top */}
-      <path d="M26 46h12v6H26z" fill="#e8c9b4" />
-      <path d="M12 64c2-9 10-14 20-14s18 5 20 14z" fill="#46608a" />
-      <path d="M28 50l4 5 4-5" fill="none" stroke="#fbf7f0" strokeWidth="1.5" strokeLinejoin="round" />
-      {/* Hair behind face */}
-      <path d="M17 33c0-11 7-18 15-18s15 7 15 18v8c-3 2-6 2-8 1V30H25v12c-2 1-5 1-8-1z" fill="#4a2f27" />
-      {/* Face */}
-      <ellipse cx="32" cy="34" rx="11" ry="12.5" fill="#f3dccd" />
-      {/* Fringe */}
-      <path d="M21 31c1-8 6-12 11-12s10 4 11 12c-4-1-8-4-10-8-2 4-7 7-12 8z" fill="#4a2f27" />
+      {/* Tail curling up behind the laptop */}
+      <path d="M44 44c6-1 9-5 8-11-.6-3 1-5 3.2-4.6" fill="none" stroke="#1d1719" strokeWidth="3.4" strokeLinecap="round" />
+      {/* Body */}
+      <ellipse cx="32" cy="42" rx="14" ry="9" fill="#1d1719" />
+      {/* Ears */}
+      <path d="M20.5 27 21.5 13.5 30 21z" fill="#1d1719" />
+      <path d="M43.5 27 42.5 13.5 34 21z" fill="#1d1719" />
+      <path d="M22.6 23.5 23 17 27 20.6z" fill="#c79f9b" />
+      <path d="M41.4 23.5 41 17 37 20.6z" fill="#c79f9b" />
+      {/* Head */}
+      <ellipse cx="32" cy="28.5" rx="12.5" ry="10.5" fill="#1d1719" />
       {/* Eyes */}
-      <path d="M26.5 35q1.5-1.6 3 0" fill="none" stroke="#36211b" strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M34.5 35q1.5-1.6 3 0" fill="none" stroke="#36211b" strokeWidth="1.4" strokeLinecap="round" />
-      {/* Cheeks */}
-      <circle cx="25.5" cy="38.5" r="2" fill="#dcbdb8" />
-      <circle cx="38.5" cy="38.5" r="2" fill="#dcbdb8" />
-      {/* Smile */}
-      <path d="M29.5 40.5q2.5 2.4 5 0" fill="none" stroke="#36211b" strokeWidth="1.3" strokeLinecap="round" />
+      <ellipse cx="27" cy="28" rx="2.7" ry="3.1" fill="#e9c85b" />
+      <ellipse cx="37" cy="28" rx="2.7" ry="3.1" fill="#e9c85b" />
+      <ellipse cx="27" cy="28.2" rx="0.9" ry="2.4" fill="#1d1719" />
+      <ellipse cx="37" cy="28.2" rx="0.9" ry="2.4" fill="#1d1719" />
+      <circle cx="27.9" cy="26.9" r="0.7" fill="#fbf7f0" />
+      <circle cx="37.9" cy="26.9" r="0.7" fill="#fbf7f0" />
+      {/* Nose and mouth */}
+      <path d="M30.8 32.2h2.4L32 33.6z" fill="#dcbdb8" />
+      <path d="M32 33.6q-.6 1.4-2 1.2M32 33.6q.6 1.4 2 1.2" fill="none" stroke="#8a7a7c" strokeWidth="0.7" strokeLinecap="round" />
+      {/* Whiskers */}
+      <path d="M24 32.5l-6-1M24 34l-6 1M40 32.5l6-1M40 34l6 1" stroke="#fbf7f0" strokeWidth="0.6" strokeLinecap="round" opacity="0.75" />
+      {/* Laptop: the back of the open lid, then the base */}
+      <rect x="14" y="38" width="36" height="17" rx="2" fill="#fbf7f0" />
+      <path d="M32 49.8c-2.6-1.7-4-3-4-4.5 0-1.2 1-2 2-2 .9 0 1.6.5 2 1.1.4-.6 1.1-1.1 2-1.1 1 0 2 .8 2 2 0 1.5-1.4 2.8-4 4.5z" fill="#c79f9b" />
+      <path d="M11 55h42l-2.5 3.2h-37z" fill="#e3d6c6" />
+      {/* Paws over the top of the screen */}
+      <ellipse cx="25" cy="38.3" rx="3.6" ry="2.6" fill="#1d1719" />
+      <ellipse cx="39" cy="38.3" rx="3.6" ry="2.6" fill="#1d1719" />
       {/* Sparkle */}
-      <path d="M51 14l1.2 3.3L55.5 18.5l-3.3 1.2L51 23l-1.2-3.3L46.5 18.5l3.3-1.2z" fill="#fbf7f0" />
+      <path d="M52 10l1.2 3.3L56.5 14.5l-3.3 1.2L52 19l-1.2-3.3L47.5 14.5l3.3-1.2z" fill="#fbf7f0" />
     </svg>
   );
 }

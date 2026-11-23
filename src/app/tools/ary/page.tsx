@@ -7,6 +7,7 @@ import { hasDownloadAccess } from "@/lib/access";
 import { ASSISTANT_SKILLS } from "@/lib/assistant";
 import AssistantChat from "@/components/tools/AssistantChat";
 import AryAvatar from "@/components/AryAvatar";
+import Laptop from "@/components/Laptop";
 
 export const metadata: Metadata = {
   title: "Ary 1.0, Your Content Agent",
@@ -25,7 +26,13 @@ async function AssistantGate() {
 
   if (user && (await hasDownloadAccess(supabase, user.id))) {
     // The chat switches on once the Anthropic API key is added
-    return process.env.ANTHROPIC_API_KEY ? <AssistantChat /> : <ComingSoon />;
+    return process.env.ANTHROPIC_API_KEY ? (
+      <Laptop>
+        <AssistantChat />
+      </Laptop>
+    ) : (
+      <ComingSoon />
+    );
   }
 
   return <Teaser loggedIn={!!user} />;
@@ -33,7 +40,8 @@ async function AssistantGate() {
 
 function ComingSoon() {
   return (
-    <div className="mx-auto max-w-2xl border border-cocoa/25 bg-paper p-8 text-center md:p-12">
+    <Laptop>
+    <div className="mx-auto max-w-2xl px-3 py-8 text-center md:py-14">
       <span className="bg-periwinkle px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
         Coming soon
       </span>
@@ -52,26 +60,16 @@ function ComingSoon() {
         Explore the free tools
       </Link>
     </div>
+    </Laptop>
   );
 }
 
 function Teaser({ loggedIn }: { loggedIn: boolean }) {
   return (
     <div className="space-y-14">
-      <div className="grid gap-6 md:grid-cols-2">
-        {ASSISTANT_SKILLS.map((s, i) => (
-          <div key={s.title} className="border border-cocoa/25 bg-paper p-7">
-            <p className="font-serif text-3xl text-rose-deep">
-              {String(i + 1).padStart(2, "0")}
-            </p>
-            <h2 className="mt-2 font-script text-4xl text-denim">{s.title}</h2>
-            <p className="mt-3 font-serif text-lg leading-relaxed text-ink/80">{s.text}</p>
-          </div>
-        ))}
-      </div>
-
       {/* Locked preview of the chat */}
-      <div className="relative mx-auto max-w-3xl overflow-hidden border border-cocoa/25 bg-paper">
+      <Laptop>
+      <div className="relative min-h-[420px] overflow-hidden bg-paper md:min-h-[480px]">
         <div aria-hidden="true" className="space-y-4 p-6 blur-[2px] select-none md:p-8">
           <p className="ml-auto max-w-[80%] bg-periwinkle px-4 py-3 font-serif text-lg text-cocoa">
             Plan a week of posts for my candle shop, cozy and minimal vibe 🕯️
@@ -111,6 +109,19 @@ function Teaser({ loggedIn }: { loggedIn: boolean }) {
             )}
           </div>
         </div>
+      </div>
+      </Laptop>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {ASSISTANT_SKILLS.map((s, i) => (
+          <div key={s.title} className="border border-cocoa/25 bg-paper p-7">
+            <p className="font-serif text-3xl text-rose-deep">
+              {String(i + 1).padStart(2, "0")}
+            </p>
+            <h2 className="mt-2 font-script text-4xl text-denim">{s.title}</h2>
+            <p className="mt-3 font-serif text-lg leading-relaxed text-ink/80">{s.text}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

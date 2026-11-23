@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SERVICES } from "@/lib/services";
 import Reveal from "@/components/Reveal";
+import ServiceTags from "@/components/ServiceTags";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -28,27 +29,8 @@ export default function ServicesPage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-16 md:py-20">
-        <Reveal as="div" stagger className="grid gap-6 md:grid-cols-2">
-          {SERVICES.map((s, i) => (
-            <div
-              key={s.slug}
-              className="lift flex flex-col border border-cocoa/25 bg-paper p-8 md:p-10"
-            >
-              <p className="font-serif text-4xl text-rose-deep">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h2 className="mt-2 font-script text-5xl text-denim">{s.name}</h2>
-              <p className="mt-4 flex-1 font-serif text-xl leading-relaxed text-ink/80">
-                {s.short}
-              </p>
-              <Link
-                href={`/services/${s.slug}`}
-                className="mt-8 w-fit bg-cocoa px-6 py-3 text-[0.7rem] uppercase tracking-[0.25em] text-periwinkle transition hover:bg-cocoa-deep"
-              >
-                Find out more
-              </Link>
-            </div>
-          ))}
+        <Reveal as="div">
+          <ServiceTags services={SERVICES} />
         </Reveal>
       </section>
 
