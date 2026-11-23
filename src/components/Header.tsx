@@ -3,6 +3,7 @@ import AuthButtons from "@/components/AuthButtons";
 import MobileMenu from "@/components/MobileMenu";
 import { NAV, isGroup, type NavItem } from "@/lib/nav";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const topLink =
   "flex items-center gap-1.5 whitespace-nowrap py-2 text-[0.7rem] font-light uppercase tracking-[0.18em] text-cocoa hover:text-denim";
@@ -72,11 +73,12 @@ export default function Header() {
         </nav>
         <span className="lg:hidden" />
 
-        <Link href="/" className="-my-2 shrink-0 text-denim">
+        <Link href="/" className="-my-2 shrink-0 text-denim dark:text-cocoa">
           <Logo height={60} />
         </Link>
 
         <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-5">
+          <ThemeToggle />
           {RIGHT.map((l) => (
             <Link key={l.href} href={l.href} className={`${topLink} hidden lg:flex`}>
               {l.label}

@@ -1,24 +1,72 @@
 @import "tailwindcss";
 
+/* ✏️ THE PALETTE
+   Light mode is the default. Dark mode (the switch in the header) swaps
+   the light and dark colors of the same palette: paper and cream become
+   deep cocoa, cocoa and ink become cream, and periwinkle and denim trade
+   places. Rose and dusty blue stay the same in both. */
 :root {
-  --background: #f6f0e6;
-  --foreground: #4a2f27;
+  --paper: #fbf7f0;
+  --cream: #f6f0e6;
+  --cocoa: #4a2f27;
+  --cocoa-deep: #36211b;
+  --periwinkle: #b9c8f2;
+  --denim: #46608a;
+  --dusty-blue: #8ea7bf;
+  --rose: #dcbdb8;
+  --rose-deep: #c79f9b;
+  --ink: #3b2b26;
+  --background: var(--cream);
+  --foreground: var(--cocoa);
+  color-scheme: light;
 }
+
+:root[data-theme="dark"] {
+  /* the page is darker than the cards and panels so they stand apart */
+  --background: #170e0b;
+  --paper: #35231d;
+  --cream: #2a1b16;
+  --cocoa: #f1e6d8;
+  --cocoa-deep: #fbf5ec;
+  --periwinkle: #46608a;
+  --denim: #b9c8f2;
+  --ink: #eadfd2;
+  color-scheme: dark;
+}
+
+/* Everything else inverts in dark mode (brown bands turn cream, cream
+   cards turn cocoa). These keep their light-mode colors because they are
+   photos or mid-tone colors whose text sits on a fixed color, or would be
+   too bright: the footer (stays brown), the rose and dusty blue panels, folders, the notebook, the lace calendar and the
+   welcome letter. */
+:root[data-theme="dark"] :is(.keep-colors, footer.linen, .panel-rose, .panel-mist, section.bg-rose, .folder, .notebook, .lace) {
+  --paper: #fbf7f0;
+  --cream: #f6f0e6;
+  --cocoa: #4a2f27;
+  --cocoa-deep: #36211b;
+  --periwinkle: #b9c8f2;
+  --denim: #46608a;
+  --ink: #3b2b26;
+  color-scheme: light;
+}
+
+/* `dark:` utilities follow the switch, not the system setting */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-paper: #fbf7f0;
-  --color-cream: #f6f0e6;
-  --color-cocoa: #4a2f27;
-  --color-cocoa-deep: #36211b;
-  --color-periwinkle: #b9c8f2;
-  --color-denim: #46608a;
-  --color-dusty-blue: #8ea7bf;
-  --color-rose: #dcbdb8;
-  --color-rose-deep: #c79f9b;
-  --color-ink: #3b2b26;
+  --color-paper: var(--paper);
+  --color-cream: var(--cream);
+  --color-cocoa: var(--cocoa);
+  --color-cocoa-deep: var(--cocoa-deep);
+  --color-periwinkle: var(--periwinkle);
+  --color-denim: var(--denim);
+  --color-dusty-blue: var(--dusty-blue);
+  --color-rose: var(--rose);
+  --color-rose-deep: var(--rose-deep);
+  --color-ink: var(--ink);
 
   /* DM Sans for body text and labels, Satoshi for titles */
   --font-sans: var(--font-dm-sans);
@@ -34,7 +82,7 @@ body {
 
 /* Brown band (flat color) */
 .linen {
-  background-color: #4a2f27;
+  background-color: var(--cocoa);
 }
 
 /* Embossed, pressed-into-paper text */
@@ -49,7 +97,7 @@ body {
 
 /* Color panels (flat colors) */
 .panel-denim {
-  background-color: #46608a;
+  background-color: var(--denim);
 }
 
 .panel-rose {
@@ -603,7 +651,7 @@ select {
 /* ------------------------------------------------------------------ */
 /* Pale blue ticking stripes on paper, like striped linen */
 .ticking {
-  background-color: #fbf7f0;
+  background-color: var(--paper);
   background-image: repeating-linear-gradient(
     90deg,
     transparent 0 30px,
@@ -616,7 +664,7 @@ select {
 /* A sheet of thick cream paper with a wavy rose frame */
 .postcard {
   position: relative;
-  background-color: #f8f3ea;
+  background-color: color-mix(in srgb, var(--paper) 70%, var(--cream));
   /* fine paper grain */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.36 0 0 0 0 0.27 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
   box-shadow: 0 1px 2px rgba(54, 33, 27, 0.08), 0 18px 40px -18px rgba(54, 33, 27, 0.35);
@@ -637,4 +685,106 @@ select {
   .postcard::before {
     inset: 10px;
   }
+}
+
+/* Dark mode: the notebook photo can't melt into a dark page, so it sits on
+   its own soft cream sheet */
+:root[data-theme="dark"] .notebook-paper {
+  mix-blend-mode: normal;
+}
+:root[data-theme="dark"] .notebook {
+  background: #f6f0e6;
+  border-radius: 12px;
+}
+/* Dark mode: a deeper striped background so the contact card stands out */
+:root[data-theme="dark"] .ticking {
+  background-color: #170e0b;
+}
+:root[data-theme="dark"] .postcard {
+  background-color: var(--paper);
+}
+
+/* Dark mode: the cocoa "Create" folder turns a lighter latte brown so it
+   doesn't sink into the dark card */
+:root[data-theme="dark"] .folder img[src*="folder-cocoa"] {
+  filter: brightness(1.75) saturate(0.95);
+}
+
+/* Dark mode: the welcome envelope turns cream lace (the photo's light and
+   dark are swapped, keeping its warm colors)... */
+:root[data-theme="dark"] .letter-envelope img {
+  filter: invert(1) hue-rotate(180deg);
+}
+/* ...but the letter inside stays as it is in light mode */
+:root[data-theme="dark"] .letter-envelope img[src*="envelope-letter"] {
+  filter: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* LIVE DEMOS (homepage "Take a peek inside")                          */
+/* ------------------------------------------------------------------ */
+.demo-cursor {
+  transition: transform 0.65s cubic-bezier(0.45, 0, 0.2, 1), opacity 0.3s;
+  will-change: transform;
+}
+.demo-caret {
+  animation: demo-blink 1s steps(1) infinite;
+}
+@keyframes demo-blink {
+  50% { opacity: 0; }
+}
+.demo-pop {
+  animation: demo-pop 0.35s cubic-bezier(0.2, 0.8, 0.3, 1.2) both;
+}
+@keyframes demo-pop {
+  from { opacity: 0; transform: scale(0.92) translateY(4px); }
+}
+.demo-tick {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: demo-tick 0.35s ease-out forwards;
+}
+@keyframes demo-tick {
+  to { stroke-dashoffset: 0; }
+}
+.demo-ping {
+  animation: demo-ping 0.45s ease-out forwards;
+}
+@keyframes demo-ping {
+  from { transform: scale(0.4); opacity: 1; }
+  to { transform: scale(1.8); opacity: 0; }
+}
+.demo-live {
+  animation: demo-live 1.6s ease-in-out infinite;
+}
+@keyframes demo-live {
+  50% { opacity: 0.25; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-pop, .demo-live, .demo-caret { animation: none; }
+  .demo-tick { animation: none; stroke-dashoffset: 0; }
+}
+
+/* "slide to unlock" label with a light sweeping across it */
+.slide-shine {
+  color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    rgba(246, 240, 230, 0.42) 0%,
+    rgba(246, 240, 230, 0.42) 40%,
+    #fffaf2 50%,
+    rgba(246, 240, 230, 0.42) 60%,
+    rgba(246, 240, 230, 0.42) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: slide-shine 2.6s linear infinite;
+}
+@keyframes slide-shine {
+  from { background-position: 100% 0; }
+  to { background-position: -150% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide-shine { animation: none; }
 }

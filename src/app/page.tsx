@@ -5,6 +5,7 @@ import Folder from "@/components/Folder";
 import ReviewsSection from "@/components/ReviewsSection";
 import WelcomeLetter from "@/components/WelcomeLetter";
 import HubShowcase from "@/components/HubShowcase";
+import SlideToUnlock from "@/components/SlideToUnlock";
 import { OFFER_PERCENT } from "@/lib/welcomeOffer";
 
 // ✏️ HOMEPAGE TEXT
@@ -180,41 +181,44 @@ export default function Home() {
         <Reveal as="h2" className="mt-3 text-center font-script text-5xl text-denim md:text-7xl">
           Everything you&apos;ll unlock
         </Reveal>
-        <Reveal as="div" stagger className="mt-12 grid items-start gap-6 md:grid-cols-[2fr_3fr]">
-          <div className="flex h-full flex-col rounded-[12px] border border-cocoa/20 bg-paper p-8">
-            <span className="w-fit bg-rose/50 px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
-              Free with an account
-            </span>
-            <ul className="mt-6 flex-1 space-y-5">
-              {freeItems.map((item) => (
-                <li key={item.title}>
-                  <p className="font-script text-3xl text-denim">{item.title}</p>
-                  <p className="mt-1 font-serif text-lg leading-relaxed text-ink/80">{item.text}</p>
-                </li>
-              ))}
-            </ul>
-            <Link href="/signup?next=/tools" className={`${pill} mt-8 border border-cocoa text-cocoa hover:bg-rose/40`}>
-              Create a free account
-            </Link>
-          </div>
+        {/* Blurred until the visitor slides the arrow to unlock it */}
+        <SlideToUnlock>
+          <Reveal as="div" stagger className="mt-12 grid items-start gap-6 md:grid-cols-[2fr_3fr]">
+            <div className="flex h-full flex-col rounded-[12px] border border-cocoa/20 bg-paper p-8">
+              <span className="w-fit bg-rose/50 px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
+                Free with an account
+              </span>
+              <ul className="mt-6 flex-1 space-y-5">
+                {freeItems.map((item) => (
+                  <li key={item.title}>
+                    <p className="font-script text-3xl text-denim">{item.title}</p>
+                    <p className="mt-1 font-serif text-lg leading-relaxed text-ink/80">{item.text}</p>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/signup?next=/tools" className={`${pill} mt-8 border border-cocoa text-cocoa hover:bg-rose/40`}>
+                Create a free account
+              </Link>
+            </div>
 
-          <div className="flex h-full flex-col rounded-[12px] bg-cocoa p-8 text-cream">
-            <span className="w-fit bg-periwinkle px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
-              Members · everything free, plus
-            </span>
-            <ul className="mt-6 grid flex-1 gap-x-8 gap-y-5 sm:grid-cols-2">
-              {memberItems.map((item) => (
-                <li key={item.title}>
-                  <p className="font-script text-3xl text-periwinkle">{item.title}</p>
-                  <p className="mt-1 font-serif text-lg leading-relaxed text-cream/80">{item.text}</p>
-                </li>
-              ))}
-            </ul>
-            <Link href="/pricing" className={`${pill} mt-8 bg-periwinkle text-cocoa hover:bg-cream`}>
-              Join the club
-            </Link>
-          </div>
-        </Reveal>
+            <div className="flex h-full flex-col rounded-[12px] bg-cocoa p-8 text-cream">
+              <span className="w-fit bg-periwinkle px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa">
+                Members · everything free, plus
+              </span>
+              <ul className="mt-6 grid flex-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+                {memberItems.map((item) => (
+                  <li key={item.title}>
+                    <p className="font-script text-3xl text-periwinkle">{item.title}</p>
+                    <p className="mt-1 font-serif text-lg leading-relaxed text-cream/80">{item.text}</p>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/pricing" className={`${pill} mt-8 bg-periwinkle text-cocoa hover:bg-cream`}>
+                Join the club
+              </Link>
+            </div>
+          </Reveal>
+        </SlideToUnlock>
       </section>
 
       {/* Value */}

@@ -38,7 +38,7 @@ export default function WelcomeLetter({ percent }: { percent: number }) {
   const open = () => stage === "closed" && setStage("opening");
 
   return (
-    <div className="mx-auto w-full max-w-[460px]">
+    <div className="keep-colors mx-auto w-full max-w-[460px]">
       <div
         className={`letter-envelope relative aspect-[707/795] w-full ${stage === "closed" ? "cursor-pointer" : ""}`}
         onClick={open}
@@ -109,7 +109,7 @@ export default function WelcomeLetter({ percent }: { percent: number }) {
           <button
             type="button"
             onClick={open}
-            className="absolute inset-x-0 bottom-[10%] mx-auto w-fit rounded-full bg-paper/90 px-5 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa shadow transition hover:bg-paper"
+            className="absolute inset-x-0 bottom-[10%] mx-auto w-fit rounded-full bg-paper/90 px-5 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-cocoa shadow transition hover:bg-paper dark:bg-[#4a2f27] dark:text-[#f6f0e6] dark:hover:bg-[#36211b]"
           >
             Open your letter
           </button>

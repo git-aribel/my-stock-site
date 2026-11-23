@@ -1,4 +1,5 @@
 // Vintage paper labels, drawn as vector shapes so they stay sharp at any size.
+// Colors are palette variables, so the labels invert in dark mode.
 // Each one copies a label from a photo: the shape, the border lines and the
 // little leaf ornaments, with a soft paper grain on top.
 
@@ -83,9 +84,9 @@ export const TAG_STYLES: Record<"scallop" | "blue" | "red" | "crest", TagStyle> 
     w: 460,
     h: 330,
     shape: { r: 30, top: "arch", amp: 22, side: "arch", sideAmp: 14 },
-    rim: "#fbf7f0",
-    paper: "#8ea7bf",
-    stroke: "#36211b",
+    rim: "var(--paper)",
+    paper: "var(--dusty-blue)",
+    stroke: "var(--cocoa-deep)",
     lines: [
       { inset: 22, width: 1.4 },
       { inset: 27, width: 0.8 },
@@ -97,8 +98,8 @@ export const TAG_STYLES: Record<"scallop" | "blue" | "red" | "crest", TagStyle> 
     w: 460,
     h: 320,
     shape: { r: 34, top: "peak", amp: 14, side: "arch", sideAmp: 20 },
-    paper: "#fbf7f0",
-    stroke: "#c79f9b",
+    paper: "var(--paper)",
+    stroke: "var(--rose-deep)",
     lines: [
       { inset: 3, width: 3.2 },
       { inset: 10, width: 1.3 },
@@ -109,8 +110,8 @@ export const TAG_STYLES: Record<"scallop" | "blue" | "red" | "crest", TagStyle> 
     w: 460,
     h: 272,
     shape: { r: 22, top: "flat", amp: 0, side: "flat", sideAmp: 0 },
-    paper: "#fbf7f0",
-    stroke: "#46608a",
+    paper: "var(--paper)",
+    stroke: "var(--denim)",
     lines: [
       { inset: 3, width: 2.4 },
       { inset: 10, width: 1.2 },
@@ -121,9 +122,9 @@ export const TAG_STYLES: Record<"scallop" | "blue" | "red" | "crest", TagStyle> 
     w: 460,
     h: 350,
     shape: { r: 26, top: "point", amp: 54, side: "flat", sideAmp: 0 },
-    rim: "#fbf7f0",
-    paper: "#4a2f27",
-    stroke: "#dcbdb8",
+    rim: "var(--paper)",
+    paper: "var(--cocoa)",
+    stroke: "var(--rose)",
     lines: [
       { inset: 22, width: 1.4 },
       { inset: 27, width: 0.8 },
@@ -135,7 +136,7 @@ export const TAG_STYLES: Record<"scallop" | "blue" | "red" | "crest", TagStyle> 
 // Three little leaves, pointing up or down
 function Leaves({ x, y, flip, color }: { x: number; y: number; flip?: boolean; color: string }) {
   return (
-    <g transform={`translate(${x} ${y}) scale(1 ${flip ? -1 : 1})`} fill={color}>
+    <g transform={`translate(${x} ${y}) scale(1 ${flip ? -1 : 1})`} style={{ fill: color }}>
       <path d="M0 0C-1.6-3-1.6-6 0-9 1.6-6 1.6-3 0 0Z" />
       <path d="M-1 0C-4-.6-7.5-2.6-9-6-5.5-5.6-2.6-3.6-1 0Z" />
       <path d="M1 0C4-.6 7.5-2.6 9-6 5.5-5.6 2.6-3.6 1 0Z" />
@@ -171,15 +172,15 @@ export default function VintageTag({ style, id, className = "" }: { style: TagSt
         </filter>
       </defs>
 
-      {style.rim && <path d={outer} fill={style.rim} />}
-      <path d={paper} fill={style.paper} />
+      {style.rim && <path d={outer} style={{ fill: style.rim }} />}
+      <path d={paper} style={{ fill: style.paper }} />
       <g clipPath={`url(#${id}-clip)`}>
         <rect width={w} height={h} filter={`url(#${id}-age)`} />
         <rect width={w} height={h} filter={`url(#${id}-grain)`} />
       </g>
 
       {lines.map((l) => (
-        <path key={l.inset} d={at(l.inset)} fill="none" stroke={style.stroke} strokeWidth={l.width} strokeLinejoin="round" />
+        <path key={l.inset} d={at(l.inset)} fill="none" style={{ stroke: style.stroke }} strokeWidth={l.width} strokeLinejoin="round" />
       ))}
 
       {style.ornaments?.includes("bottom") && (

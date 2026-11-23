@@ -11,6 +11,7 @@ import { FOOTER } from "@/lib/nav";
 import JsonLd from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import Logo from "@/components/Logo";
+import { THEME_SCRIPT } from "@/components/ThemeToggle";
 
 // Body text. Served from this site (no outside requests).
 const dmSans = DM_Sans({
@@ -82,8 +83,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Applies the saved light/dark choice before the page shows */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={SATOSHI_CSS} />

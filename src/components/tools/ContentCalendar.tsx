@@ -378,7 +378,7 @@ export default function ContentCalendar() {
       {error && <p className="font-serif text-lg text-red-800">{error}</p>}
 
       {/* The calendar itself: lace-edged paper on dark brown */}
-      <div className="-mx-4 rounded-[12px] bg-cocoa-deep px-1.5 py-4 sm:mx-0 sm:p-6 md:p-10">
+      <div className="keep-colors -mx-4 rounded-[12px] bg-cocoa-deep px-1.5 py-4 sm:mx-0 sm:p-6 md:p-10">
       <LacePaper>
         <div className="px-2 pb-2 pt-3 text-center sm:px-6 md:pt-6">
           <div className="flex items-center justify-center gap-1 sm:gap-6">
